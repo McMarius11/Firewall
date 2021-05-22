@@ -1,2 +1,2 @@
 # Firewall application port destination list
-a manual WAF Firwall
+a manual WAF Firewall
