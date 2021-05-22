@@ -1,9 +1,9 @@
 ##Tested on OPNsense##
 Firewall application port destination list
 
-Service                                     	Ports                       Dst
-Kartina.tv							                			8200tcp                     185.146.250.206
-Telegram Key Exchange				            			590,599udp                  /
-Playstation NOW			              						2053,3478,3479,3658tcp&udp  /
-Ecovacs                                       443                         47.254.143.26
-SILVERCREST® Monsieur Cuisine Connect		     	443             						185.102.95.197	
+Service  Ports  Dst
+Kartina.tv  8200tcp  185.146.250.206
+Telegram Key Exchange  590,599udp  /
+Playstation NOW  2053,3478,3479,3658tcp&udp  /
+Ecovacs  443  47.254.143.26
+SILVERCREST® Monsieur Cuisine Connect  443  185.102.95.197
