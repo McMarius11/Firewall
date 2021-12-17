@@ -1,0 +1,18 @@
+Install the Netsnmp Plugin on your OPNsense Firewall and use SNMP
+
+Enable SNMP Service = yes
+SNMP Community = community
+SNMP Location = location of the device if you want
+SNMP Contact = email
+Add AgentX Support = yes
+Layer 3 Visibility = yes
+Display Version in OID = not needed
+Listen IPs = type in your local Firewall IP-Adress
+	
+
+OPNnsense uses SHA-1 (SHA-96)
+Privacy protocol (AES-128)
+Authentication password = encryption key
+Privacy pass phrase = user password
+
+the rest should be self explanatory
