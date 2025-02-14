@@ -354,28 +354,23 @@ set profiles wildfire-analysis Alert-Only-WF rules Forward-All analysis public-c
 set profiles wildfire-analysis Alert-Only-WF cloud-inline-analysis yes
 
 #Profile Groups
+
 set profile-group Outbound virus Outbound-AV
 set profile-group Outbound spyware Outbound-AS
 set profile-group Outbound vulnerability Outbound-VP
 set profile-group Outbound url-filtering Outbound-URL
 set profile-group Outbound file-blocking Outbound-FB
 set profile-group Outbound wildfire-analysis Outbound-WF
-set profile-group Inbound virus Inbound-AV
-set profile-group Inbound spyware Inbound-AS
-set profile-group Inbound vulnerability Inbound-VP
-set profile-group Inbound file-blocking Inbound-FB
-set profile-group Inbound wildfire-analysis Inbound-WF
-set profile-group Internal virus Internal-AV
-set profile-group Internal spyware Internal-AS
-set profile-group Internal vulnerability Internal-VP
-set profile-group Internal file-blocking Internal-FB
-set profile-group Internal wildfire-analysis Internal-WF
+
+
 set profile-group Alert-Only virus Alert-Only-AV
 set profile-group Alert-Only spyware Alert-Only-AS
 set profile-group Alert-Only vulnerability Alert-Only-VP
 set profile-group Alert-Only url-filtering Alert-Only-URL
 set profile-group Alert-Only file-blocking Alert-Only-FB
 set profile-group Alert-Only wildfire-analysis Alert-Only-WF
+
+
 set profile-group default virus Outbound-AV
 set profile-group default spyware Outbound-AS
 set profile-group default vulnerability Outbound-VP
@@ -457,49 +452,95 @@ set rulebase decryption rules "NO-Decrypt URL Categories" disabled yes
 set rulebase decryption rules "NO-Decrypt URL Categories" description "This rule does not do Decryption.  This rule is validating SSL Protocol Communications."
 
 #Zone Protection Profiles - To Be Added to each Configured Zone
-set network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 action alert
-set network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 interval 2
-set network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 threshold 100
-set network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 action alert
-set network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 interval 10
-set network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 threshold 100
-set network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 action alert
-set network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 interval 2
-set network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 threshold 100
-set network profiles zone-protection-profile Recommended_Zone_Protection discard-ip-spoof yes
-set network profiles zone-protection-profile Recommended_Zone_Protection discard-malformed-option yes
-set network profiles zone-protection-profile Recommended_Zone_Protection remove-tcp-timestamp yes
-set network profiles zone-protection-profile Recommended_Zone_Protection strip-tcp-fast-open-and-data no
-set network profiles zone-protection-profile Recommended_Zone_Protection strip-mptcp-option global
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn red alarm-rate 10000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn red activate-rate 10000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn red maximal-rate 40000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn enable no
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp red alarm-rate 10000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp red activate-rate 10000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp red maximal-rate 40000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp enable no
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp red alarm-rate 10000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp red activate-rate 10000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp red maximal-rate 40000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp enable no
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 red alarm-rate 10000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 red activate-rate 10000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 red maximal-rate 40000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 enable no
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip red alarm-rate 10000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip red activate-rate 10000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip red maximal-rate 40000
-set network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip enable no
-set network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8001 action alert
-set network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8001 interval 2
-set network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8001 threshold 100
-set network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8002 action alert
-set network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8002 interval 10
-set network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8002 threshold 100
-set network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8003 action alert
-set network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8003 interval 2
-set network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8003 threshold 100
+set network profiles zone-protection-profile Best_Practice_External flood tcp-syn syn-cookies alarm-rate 10000
+set network profiles zone-protection-profile Best_Practice_External flood tcp-syn syn-cookies activate-rate 0
+set network profiles zone-protection-profile Best_Practice_External flood tcp-syn syn-cookies maximal-rate 1000000
+set network profiles zone-protection-profile Best_Practice_External flood tcp-syn enable no
+set network profiles zone-protection-profile Best_Practice_External flood udp red alarm-rate 10000
+set network profiles zone-protection-profile Best_Practice_External flood udp red activate-rate 10000
+set network profiles zone-protection-profile Best_Practice_External flood udp red maximal-rate 40000
+set network profiles zone-protection-profile Best_Practice_External flood udp enable no
+set network profiles zone-protection-profile Best_Practice_External flood icmp red alarm-rate 10000
+set network profiles zone-protection-profile Best_Practice_External flood icmp red activate-rate 10000
+set network profiles zone-protection-profile Best_Practice_External flood icmp red maximal-rate 40000
+set network profiles zone-protection-profile Best_Practice_External flood icmp enable no
+set network profiles zone-protection-profile Best_Practice_External flood icmpv6 red alarm-rate 10000
+set network profiles zone-protection-profile Best_Practice_External flood icmpv6 red activate-rate 10000
+set network profiles zone-protection-profile Best_Practice_External flood icmpv6 red maximal-rate 40000
+set network profiles zone-protection-profile Best_Practice_External flood icmpv6 enable no
+set network profiles zone-protection-profile Best_Practice_External flood other-ip red alarm-rate 10000
+set network profiles zone-protection-profile Best_Practice_External flood other-ip red activate-rate 10000
+set network profiles zone-protection-profile Best_Practice_External flood other-ip red maximal-rate 40000
+set network profiles zone-protection-profile Best_Practice_External flood other-ip enable no
+set network profiles zone-protection-profile Best_Practice_External scan 8001 action alert 
+set network profiles zone-protection-profile Best_Practice_External scan 8001 interval 2
+set network profiles zone-protection-profile Best_Practice_External scan 8001 threshold 100
+set network profiles zone-protection-profile Best_Practice_External scan 8002 action alert 
+set network profiles zone-protection-profile Best_Practice_External scan 8002 interval 10
+set network profiles zone-protection-profile Best_Practice_External scan 8002 threshold 100
+set network profiles zone-protection-profile Best_Practice_External scan 8003 action alert 
+set network profiles zone-protection-profile Best_Practice_External scan 8003 interval 2
+set network profiles zone-protection-profile Best_Practice_External scan 8003 threshold 100
+set network profiles zone-protection-profile Best_Practice_External discard-unknown-option yes
+set network profiles zone-protection-profile Best_Practice_External discard-malformed-option yes
+set network profiles zone-protection-profile Best_Practice_External ipv6 routing-header-0 no
+set network profiles zone-protection-profile Best_Practice_External ipv6 routing-header-1 no
+set network profiles zone-protection-profile Best_Practice_External ipv6 routing-header-4-252 no
+set network profiles zone-protection-profile Best_Practice_External ipv6 routing-header-255 no
+set network profiles zone-protection-profile Best_Practice_External discard-ip-spoof no
+set network profiles zone-protection-profile Best_Practice_External strict-ip-check no
+set network profiles zone-protection-profile Best_Practice_External discard-strict-source-routing yes
+set network profiles zone-protection-profile Best_Practice_External discard-loose-source-routing yes
+set network profiles zone-protection-profile Best_Practice_External discard-tcp-split-handshake yes
+set network profiles zone-protection-profile Best_Practice_External discard-overlapping-tcp-segment-mismatch yes
+set network profiles zone-protection-profile Best_Practice_External remove-tcp-timestamp yes
+set network profiles zone-protection-profile Best_Practice_External description "For internal zones only, drop Spoofed IP address packets to ensure that on ingress, the source address matches the firewall routing table."
+set network profiles zone-protection-profile Best_Practice_External net-inspection rule 
+
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood tcp-syn syn-cookies alarm-rate 10000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood tcp-syn syn-cookies activate-rate 0
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood tcp-syn syn-cookies maximal-rate 1000000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood tcp-syn enable no
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood udp red alarm-rate 10000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood udp red activate-rate 10000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood udp red maximal-rate 40000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood udp enable no
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood icmp red alarm-rate 10000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood icmp red activate-rate 10000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood icmp red maximal-rate 40000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood icmp enable no
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood icmpv6 red alarm-rate 10000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood icmpv6 red activate-rate 10000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood icmpv6 red maximal-rate 40000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood icmpv6 enable no
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood other-ip red alarm-rate 10000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood other-ip red activate-rate 10000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood other-ip red maximal-rate 40000
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY flood other-ip enable no
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY scan 8001 action alert 
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY scan 8001 interval 2
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY scan 8001 threshold 100
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY scan 8002 action alert 
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY scan 8002 interval 10
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY scan 8002 threshold 100
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY scan 8003 action alert 
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY scan 8003 interval 2
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY scan 8003 threshold 100
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY discard-unknown-option yes
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY discard-malformed-option yes
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY ipv6 routing-header-0 no
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY ipv6 routing-header-1 no
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY ipv6 routing-header-4-252 no
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY ipv6 routing-header-255 no
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY discard-ip-spoof yes
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY strict-ip-check no
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY discard-strict-source-routing yes
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY discard-loose-source-routing yes
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY discard-tcp-split-handshake yes
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY discard-overlapping-tcp-segment-mismatch yes
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY remove-tcp-timestamp yes
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY description "For internal zones only, drop Spoofed IP address packets to ensure that on ingress, the source address matches the firewall routing table."
+set network profiles zone-protection-profile Best_Practice_Internal_ONLY net-inspection rule 
 
 #General Reports
 set shared reports "Host-visit malicious sites plus" period last-7-calendar-days
@@ -584,7 +625,3 @@ set shared report-group "Possible Compromise" custom-widget 7 custom-report "Hos
 set shared report-group "Possible Compromise" title-page yes
 set shared report-group "Possible Compromise" variable title value "Possible Compromise"
 
-#Scheduling to Email Reports
-set shared email-scheduler "Possible Compromise" report-group "Possible Compromise"
-set shared email-scheduler "Possible Compromise" recurring disabled
-set shared email-scheduler "Possible Compromise" email-profile Sample_Email_Profile
