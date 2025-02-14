@@ -5,6 +5,7 @@
 # a strong modified version of https://github.com/PaloAltoNetworks/iron-skillet
 # last edit 15.02.2025 by Marius Kamm
 # WIP not complete and does not work!
+Source: https://github.com/PaloAltoNetworks/iron-skillet/blob/panos_v11.0/templates/panorama/set_commands/iron_skillet_panorama_full.conf
 
 
  _    _  ___  ____  _  __   ___ _  _   ____  ____   ___   ____  ____  _____ ____ ____
