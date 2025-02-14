@@ -96,49 +96,49 @@ set address n_RFC1918_172.16.0.0-12 ip-netmask 172.16.0.0/12
 set address n_RFC1918_192.168.0.0-16 ip-netmask 192.168.0.0/16
 set address-group ag_RFC1918 static [ n_RFC1918_10.0.0.0-8 n_RFC1918_172.16.0.0-12 n_RFC1918_192.168.0.0-16 ]
 
-#Device Log Settings for Panorama
+#Device Log Settings for Syslog or Email
 set shared log-settings system match-list System_Log_Forwarding filter "All Logs"
-set shared log-settings system match-list System_Log_Forwarding send-to-panorama yes
+set shared log-settings system match-list System_Log_Forwarding send-to-panorama no
 set shared log-settings config match-list Configuration_Log_Forwarding filter "All Logs"
-set shared log-settings config match-list Configuration_Log_Forwarding send-to-panorama yes
+set shared log-settings config match-list Configuration_Log_Forwarding send-to-panorama no
 set shared log-settings userid match-list User-ID_Log_Forwarding filter "All Logs"
-set shared log-settings userid match-list User-ID_Log_Forwarding send-to-panorama yes
+set shared log-settings userid match-list User-ID_Log_Forwarding send-to-panorama no
 set shared log-settings hipmatch match-list HIP_Log_Forwarding filter "All Logs"
-set shared log-settings hipmatch match-list HIP_Log_Forwarding send-to-panorama yes
+set shared log-settings hipmatch match-list HIP_Log_Forwarding send-to-panorama no
 set shared log-settings globalprotect match-list GP_Log_Forwarding filter "All Logs"
-set shared log-settings globalprotect match-list GP_Log_Forwarding send-to-panorama yes
+set shared log-settings globalprotect match-list GP_Log_Forwarding send-to-panorama no
 set shared log-settings iptag match-list IP-Tag_Log_Forwarding filter "All Logs"
-set shared log-settings iptag match-list IP-Tag_Log_Forwarding send-to-panorama yes
+set shared log-settings iptag match-list IP-Tag_Log_Forwarding send-to-panorama no
 
-#Log Forwarding Profile Objects for Panorama
+#Log Forwarding Profile Objects for Syslog or Email
 set shared log-settings profiles default match-list Traffic_Log_Forwarding log-type traffic
 set shared log-settings profiles default match-list Traffic_Log_Forwarding filter "All Logs"
-set shared log-settings profiles default match-list Traffic_Log_Forwarding send-to-panorama yes
+set shared log-settings profiles default match-list Traffic_Log_Forwarding send-to-panorama no
 set shared log-settings profiles default match-list Threat_Log_Forwarding log-type threat
 set shared log-settings profiles default match-list Threat_Log_Forwarding filter "All Logs"
-set shared log-settings profiles default match-list Threat_Log_Forwarding send-to-panorama yes
+set shared log-settings profiles default match-list Threat_Log_Forwarding send-to-panorama no
 set shared log-settings profiles default match-list Email_Malicious_Verdicts action-desc "Email Malicious Wildfire Verdicts"
 set shared log-settings profiles default match-list Email_Malicious_Verdicts log-type wildfire
 set shared log-settings profiles default match-list Email_Malicious_Verdicts filter "(verdict neq benign)"
-set shared log-settings profiles default match-list Email_Malicious_Verdicts send-to-panorama yes
+set shared log-settings profiles default match-list Email_Malicious_Verdicts send-to-panorama no
 set shared log-settings profiles default match-list Wildfire_Log_Forwarding log-type wildfire
 set shared log-settings profiles default match-list Wildfire_Log_Forwarding filter "All Logs"
-set shared log-settings profiles default match-list Wildfire_Log_Forwarding send-to-panorama yes
+set shared log-settings profiles default match-list Wildfire_Log_Forwarding send-to-panorama no
 set shared log-settings profiles default match-list URL_Log_Forwarding log-type url
 set shared log-settings profiles default match-list URL_Log_Forwarding filter "All Logs"
-set shared log-settings profiles default match-list URL_Log_Forwarding send-to-panorama yes
+set shared log-settings profiles default match-list URL_Log_Forwarding send-to-panorama no
 set shared log-settings profiles default match-list Data_Log_Forwarding log-type data
 set shared log-settings profiles default match-list Data_Log_Forwarding filter "All Logs"
-set shared log-settings profiles default match-list Data_Log_Forwarding send-to-panorama yes
+set shared log-settings profiles default match-list Data_Log_Forwarding send-to-panorama no
 set shared log-settings profiles default match-list Tunnel_Log_Forwarding log-type tunnel
 set shared log-settings profiles default match-list Tunnel_Log_Forwarding filter "All Logs"
-set shared log-settings profiles default match-list Tunnel_Log_Forwarding send-to-panorama yes
+set shared log-settings profiles default match-list Tunnel_Log_Forwarding send-to-panorama no
 set shared log-settings profiles default match-list Auth_Log_Forwarding log-type auth
 set shared log-settings profiles default match-list Auth_Log_Forwarding filter "All Logs"
-set shared log-settings profiles default match-list Auth_Log_Forwarding send-to-panorama yes
+set shared log-settings profiles default match-list Auth_Log_Forwarding send-to-panorama no
 set shared log-settings profiles default match-list Decryption log-type decryption
 set shared log-settings profiles default match-list Decryption filter "All Logs"
-set shared log-settings profiles default match-list Decryption send-to-panorama yes
+set shared log-settings profiles default match-list Decryption send-to-panorama no
 
 
 #Tags referenced in security rules
