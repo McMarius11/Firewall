@@ -56,6 +56,8 @@ set deviceconfig system dns-setting servers secondary {{ DNS_2 }}
 set deviceconfig system ntp-servers primary-ntp-server ntp-server-address {{ NTP_1 }}
 set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address {{ NTP_2 }}
 
+commit
+
 # Antivirus and Apps/Threats are needed for EDLs
 request content upgrade check
 request content upgrade download latest 
@@ -65,6 +67,8 @@ request anti-virus upgrade check
 request anti-virus upgrade download latest
 request anti-virus upgrade install version latest
 
+
+--START--START--START--START--START--START--START--START--START--START--START
 
 
 # device system and settings configuration
