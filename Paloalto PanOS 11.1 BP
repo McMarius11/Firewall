@@ -3,10 +3,10 @@
 # this template uses jinja format
 # either 'search and replace' or the scripts in the tools dir can be used to create a loadable configuration
 # a strong modified version of https://github.com/PaloAltoNetworks/iron-skillet
-# last edit 14.02.2025 by Marius Kamm
+# last edit 15.02.2025 by Marius Kamm
 
 
-----------------------------------------------------------------------------------------
+OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
 
 # remove admin/admin default and add user defined super user
 set mgt-config users {{ ADMINISTRATOR_USERNAME }} password
@@ -31,17 +31,20 @@ set mgt-config password-complexity block-username-inclusion yes
 set mgt-config password-complexity password-history-count 24
 set mgt-config password-complexity new-password-differs-by-characters 3
 
-#Objects
+
+OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
+
+
+
+
+
+
+# Objects
 set address fqdn_sinkhole.paloaltonetworks.com fqdn sinkhole.paloaltonetworks.com
 set address n_RFC1918_10.0.0.0-8 ip-netmask 10.0.0.0/8
 set address n_RFC1918_172.16.0.0-12 ip-netmask 172.16.0.0/12
 set address n_RFC1918_192.168.0.0-16 ip-netmask 192.168.0.0/16
 set address-group ag_RFC1918 static [ n_RFC1918_10.0.0.0-8 n_RFC1918_172.16.0.0-12 n_RFC1918_192.168.0.0-16 ]
-
-
-
-
-------------------------------------------------------------------------
 
 # management interface configuration - may be skipped if already online
 set deviceconfig system hostname {{ FW_NAME }}
