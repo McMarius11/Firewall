@@ -66,7 +66,7 @@ request anti-virus upgrade check
 request anti-virus upgrade download latest
 request anti-virus upgrade install version latest
 
-#After the packages are installed, we can start
+# After the packages are installed, we can start :)
 
 --START----------START----------START----------START----------START----------START----------START----------START--
 
