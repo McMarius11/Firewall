@@ -2,6 +2,9 @@
 # commands are expected to be loaded in order
 # this template uses jinja format
 # either 'search and replace' or the scripts in the tools dir can be used to create a loadable configuration
+# a strong modified version of https://github.com/PaloAltoNetworks/iron-skillet
+# last edit 14.02.2025 by Marius Kamm
+
 
 ----------------------------------------------------------------------------------------
 
