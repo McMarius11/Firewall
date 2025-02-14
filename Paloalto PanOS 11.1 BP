@@ -28,6 +28,16 @@ set mgt-config password-complexity block-username-inclusion yes
 set mgt-config password-complexity password-history-count 24
 set mgt-config password-complexity new-password-differs-by-characters 3
 
+#Objects
+set address fqdn_sinkhole.paloaltonetworks.com fqdn sinkhole.paloaltonetworks.com
+set address n_RFC1918_10.0.0.0-8 ip-netmask 10.0.0.0/8
+set address n_RFC1918_172.16.0.0-12 ip-netmask 172.16.0.0/12
+set address n_RFC1918_192.168.0.0-16 ip-netmask 192.168.0.0/16
+set address-group ag_RFC1918 static [ n_RFC1918_10.0.0.0-8 n_RFC1918_172.16.0.0-12 n_RFC1918_192.168.0.0-16 ]
+
+
+
+
 ------------------------------------------------------------------------
 
 # management interface configuration - may be skipped if already online
@@ -355,13 +365,6 @@ set profiles wildfire-analysis Alert-Only-WF cloud-inline-analysis yes
 
 #Profile Groups
 
-set profile-group Outbound virus Outbound-AV
-set profile-group Outbound spyware Outbound-AS
-set profile-group Outbound vulnerability Outbound-VP
-set profile-group Outbound url-filtering Outbound-URL
-set profile-group Outbound file-blocking Outbound-FB
-set profile-group Outbound wildfire-analysis Outbound-WF
-
 
 set profile-group Alert-Only virus Alert-Only-AV
 set profile-group Alert-Only spyware Alert-Only-AS
@@ -379,41 +382,55 @@ set profile-group default file-blocking Outbound-FB
 set profile-group default wildfire-analysis Outbound-WF
 
 #Security Rules
-set rulebase default-security-rules rules intrazone-default action allow
+set rulebase default-security-rules rules intrazone-default action drop
 set rulebase default-security-rules rules intrazone-default log-start no
 set rulebase default-security-rules rules intrazone-default log-end yes
-set rulebase default-security-rules rules intrazone-default profile-setting group Inbound
 set rulebase default-security-rules rules intrazone-default log-setting default
 set rulebase default-security-rules rules interzone-default action drop
 set rulebase default-security-rules rules interzone-default log-start no
 set rulebase default-security-rules rules interzone-default log-end yes
 set rulebase default-security-rules rules interzone-default log-setting default
-set rulebase security rules "Outbound Block Rule" description "Block outbound sessions with destination address matching one of the Palo Alto Networks external dynamic lists for high risk and known malicious IP addresses."
-set rulebase security rules "Outbound Block Rule" to any
-set rulebase security rules "Outbound Block Rule" from any
-set rulebase security rules "Outbound Block Rule" source any
-set rulebase security rules "Outbound Block Rule" destination [ panw-highrisk-ip-list panw-known-ip-list panw-bulletproof-ip-list panw-torexit-ip-list ]
-set rulebase security rules "Outbound Block Rule" source-user any
-set rulebase security rules "Outbound Block Rule" category any
-set rulebase security rules "Outbound Block Rule" application any
-set rulebase security rules "Outbound Block Rule" service any
-set rulebase security rules "Outbound Block Rule" source-hip any
-set rulebase security rules "Outbound Block Rule" action drop
-set rulebase security rules "Outbound Block Rule" log-setting default
-set rulebase security rules "Outbound Block Rule" tag Outbound
-set rulebase security rules "Inbound Block Rule" description "Block inbound sessions with source address matching one of the Palo Alto Networks external dynamic lists for high risk and known malicious IP addresses."
-set rulebase security rules "Inbound Block Rule" to any
-set rulebase security rules "Inbound Block Rule" from any
-set rulebase security rules "Inbound Block Rule" source [ panw-highrisk-ip-list panw-known-ip-list panw-bulletproof-ip-list panw-torexit-ip-list ]
-set rulebase security rules "Inbound Block Rule" destination any
-set rulebase security rules "Inbound Block Rule" source-user any
-set rulebase security rules "Inbound Block Rule" category any
-set rulebase security rules "Inbound Block Rule" application any
-set rulebase security rules "Inbound Block Rule" service any
-set rulebase security rules "Outbound Block Rule" source-hip any
-set rulebase security rules "Inbound Block Rule" action drop
-set rulebase security rules "Inbound Block Rule" log-setting default
-set rulebase security rules "Inbound Block Rule" tag Inbound
+set rulebase security rules "Outbound EDL Block Rule" description "Block outbound sessions with destination address matching one of the Palo Alto Networks external dynamic lists for high risk and known malicious IP addresses and also tor exit ips."
+set rulebase security rules "Outbound EDL Block Rule" to any
+set rulebase security rules "Outbound EDL Block Rule" from any
+set rulebase security rules "Outbound EDL Block Rule" source any
+set rulebase security rules "Outbound EDL Block Rule" destination [ panw-highrisk-ip-list panw-known-ip-list panw-bulletproof-ip-list panw-torexit-ip-list ]
+set rulebase security rules "Outbound EDL Block Rule" source-user any
+set rulebase security rules "Outbound EDL Block Rule" category any
+set rulebase security rules "Outbound EDL Block Rule" application any
+set rulebase security rules "Outbound EDL Block Rule" service any
+set rulebase security rules "Outbound EDL Block Rule" source-hip any
+set rulebase security rules "Outbound EDL Block Rule" action drop
+set rulebase security rules "Outbound EDL Block Rule" log-setting default
+set rulebase security rules "Outbound EDL Block Rule" tag Outbound
+set rulebase security rules "Inbound EDL Block Rule" description "Block inbound sessions with source address matching one of the Palo Alto Networks external dynamic lists for high risk and known malicious IP addresses and also tor exit ips."
+set rulebase security rules "Inbound EDL Block Rule" to any
+set rulebase security rules "Inbound EDL Block Rule" from any
+set rulebase security rules "Inbound EDL Block Rule" source [ panw-highrisk-ip-list panw-known-ip-list panw-bulletproof-ip-list panw-torexit-ip-list ]
+set rulebase security rules "Inbound EDL Block Rule" destination any
+set rulebase security rules "Inbound EDL Block Rule" source-user any
+set rulebase security rules "Inbound EDL Block Rule" category any
+set rulebase security rules "Inbound EDL Block Rule" application any
+set rulebase security rules "Inbound EDL Block Rule" service any
+set rulebase security rules "Inbound EDL Block Rule" source-hip any
+set rulebase security rules "Inbound EDL Block Rule" action drop
+set rulebase security rules "Inbound EDL Block Rule" log-setting default
+set rulebase security rules "Inbound EDL Block Rule" tag Inbound
+
+set rulebase security rules "Paloalto DNS Sinkhole" to any
+set rulebase security rules "Paloalto DNS Sinkhole" from any
+set rulebase security rules "Paloalto DNS Sinkhole" source any
+set rulebase security rules "Paloalto DNS Sinkhole" destination fqdn_sinkhole.paloaltonetworks.com
+set rulebase security rules "Paloalto DNS Sinkhole" source-user any
+set rulebase security rules "Paloalto DNS Sinkhole" category any
+set rulebase security rules "Paloalto DNS Sinkhole" application any
+set rulebase security rules "Paloalto DNS Sinkhole" service any
+set rulebase security rules "Paloalto DNS Sinkhole" source-hip any
+set rulebase security rules "Paloalto DNS Sinkhole" destination-hip any
+set rulebase security rules "Paloalto DNS Sinkhole" action deny
+set rulebase security rules "Paloalto DNS Sinkhole" log-start no
+set rulebase security rules "Paloalto DNS Sinkhole" log-end yes
+set rulebase security rules "Paloalto DNS Sinkhole" log-setting default
 
 #Recommended Decryption Profiles
 set profiles decryption Recommended_Decryption_Profile ssl-forward-proxy block-expired-certificate yes
