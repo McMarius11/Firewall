@@ -416,7 +416,8 @@ set rulebase security rules "Inbound EDL Block Rule" service any
 set rulebase security rules "Inbound EDL Block Rule" source-hip any
 set rulebase security rules "Inbound EDL Block Rule" action drop
 set rulebase security rules "Inbound EDL Block Rule" log-setting default
-set rulebase security rules "Inbound EDL Block Rule" tag Inbound
+set rulebase security rules "Inbound EDL Block Rule" tag Inbound deny
+
 
 set rulebase security rules "Paloalto DNS Sinkhole" to any
 set rulebase security rules "Paloalto DNS Sinkhole" from any
@@ -432,6 +433,9 @@ set rulebase security rules "Paloalto DNS Sinkhole" action deny
 set rulebase security rules "Paloalto DNS Sinkhole" log-start no
 set rulebase security rules "Paloalto DNS Sinkhole" log-end yes
 set rulebase security rules "Paloalto DNS Sinkhole" log-setting default
+set rulebase security rules "Paloalto DNS Sinkhole" group-tag deny
+set rulebase security rules "Paloalto DNS Sinkhole" tag deny
+
 
 #Recommended Decryption Profiles
 set profiles decryption Recommended_Decryption_Profile ssl-forward-proxy block-expired-certificate yes
