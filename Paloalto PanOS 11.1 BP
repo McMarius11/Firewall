@@ -123,6 +123,8 @@ set shared log-settings profiles default match-list Decryption send-to-panorama 
 set tag Outbound comments "Outbound to the Internet"
 set tag Inbound comments "Inbound from the Internet"
 set tag Internal comments "Internal to Internal"
+set tag deny comments "Traffic who gets denied"
+
 
 #File Blocking Profile
 #set profiles file-blocking Outbound-FB rules Alert-All application any
@@ -403,7 +405,9 @@ set rulebase security rules "Outbound EDL Block Rule" service any
 set rulebase security rules "Outbound EDL Block Rule" source-hip any
 set rulebase security rules "Outbound EDL Block Rule" action drop
 set rulebase security rules "Outbound EDL Block Rule" log-setting default
-set rulebase security rules "Outbound EDL Block Rule" tag Outbound
+set rulebase security rules "Outbound EDL Block Rule" tag [ Outbound deny ]
+set rulebase security rules "Outbound EDL Block Rule" group-tag deny
+
 set rulebase security rules "Inbound EDL Block Rule" description "Block inbound sessions with source address matching one of the Palo Alto Networks external dynamic lists for high risk and known malicious IP addresses and also tor exit ips."
 set rulebase security rules "Inbound EDL Block Rule" to any
 set rulebase security rules "Inbound EDL Block Rule" from any
@@ -416,7 +420,9 @@ set rulebase security rules "Inbound EDL Block Rule" service any
 set rulebase security rules "Inbound EDL Block Rule" source-hip any
 set rulebase security rules "Inbound EDL Block Rule" action drop
 set rulebase security rules "Inbound EDL Block Rule" log-setting default
-set rulebase security rules "Inbound EDL Block Rule" tag Inbound deny
+set rulebase security rules "Inbound EDL Block Rule" tag [ Inbound deny ]
+set rulebase security rules "Inbound EDL Block Rule" group-tag deny
+
 
 
 set rulebase security rules "Paloalto DNS Sinkhole" to any
