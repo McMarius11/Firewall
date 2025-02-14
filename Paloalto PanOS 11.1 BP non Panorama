@@ -42,7 +42,6 @@ OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL-------------
 #           |_|                                                  
                                             
 
-
 # management interface configuration - may be skipped if already online
 set deviceconfig system hostname {{ FW_NAME }}
 set deviceconfig system ip-address {{ MGMT_IP }}
@@ -68,7 +67,9 @@ request anti-virus upgrade download latest
 request anti-virus upgrade install version latest
 
 
---START--START--START--START--START--START--START--START--START--START--START
+
+--START--START--START--START--START--START--START--START--START--START--START--
+
 
 
 # device system and settings configuration
@@ -388,15 +389,12 @@ set profiles wildfire-analysis Alert-Only-WF rules Forward-All analysis public-c
 set profiles wildfire-analysis Alert-Only-WF cloud-inline-analysis yes
 
 #Profile Groups
-
-
 set profile-group Alert-Only virus Alert-Only-AV
 set profile-group Alert-Only spyware Alert-Only-AS
 set profile-group Alert-Only vulnerability Alert-Only-VP
 set profile-group Alert-Only url-filtering Alert-Only-URL
 set profile-group Alert-Only file-blocking Alert-Only-FB
 set profile-group Alert-Only wildfire-analysis Alert-Only-WF
-
 
 set profile-group default virus Outbound-AV
 set profile-group default spyware Outbound-AS
@@ -443,8 +441,6 @@ set rulebase security rules "Inbound EDL Block Rule" action drop
 set rulebase security rules "Inbound EDL Block Rule" log-setting default
 set rulebase security rules "Inbound EDL Block Rule" tag [ Inbound deny ]
 set rulebase security rules "Inbound EDL Block Rule" group-tag deny
-
-
 
 set rulebase security rules "Paloalto DNS Sinkhole" to any
 set rulebase security rules "Paloalto DNS Sinkhole" from any
