@@ -69,6 +69,7 @@ set deviceconfig system update-schedule global-protect-clientless-vpn recurring 
 set deviceconfig system snmp-setting access-setting version v3
 set deviceconfig system login-banner "You have accessed a protected system. Log off immediately if you are not an authorized user."
 set deviceconfig system timezone Europe/Berlin
+set deviceconfig setting wildfire public-cloud-server de.wildfire.paloaltonetworks.com
 
 
 
