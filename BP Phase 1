@@ -23,7 +23,7 @@ set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address ptbt
 
 ------------------------------------------------------------------------------------------
 
-# delete VW Interfaces and Zones
+# deletes virtualwire interfaces and zones
 delete rulebase security rules rule1
 delete network virtual-wire default-vwire
 delete zone trust
