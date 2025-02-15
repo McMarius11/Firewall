@@ -15,7 +15,7 @@ set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address ptbt
 
 ------------------------------------------------------------------------------------------
 
-# deletes virtualwire interfaces and zones
+# deletes virtualwire and interfaces 1/1 & 1/2 and zones
 delete rulebase security rules rule1
 delete network virtual-wire default-vwire
 delete zone trust
@@ -38,16 +38,9 @@ request certificate generate ca yes days-till-expiry 7300 digest sha512 certific
 configure
 set deviceconfig setting management api key certificate Firewall-API-Cert
 
-#  _____   _____   __  __   __  __   _____   _____ 
-# /  ___| /  _  \ |  \/  | |  \/  |   |_|   |_   _|
-# | |     | | | | | |\/| | | |\/| |    |      | |  
-# | |     | | | | | |  | | | |  | |    |      | |  
-# | |___  | |_| | | |  | | | |  | |    |      | |  
-# \_____| \_____/ |_|  |_| |_|  |_|  |_|_|    |_|  
-
 commit
 
-#--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--
+
 
 exit
 request license fetch 
@@ -60,16 +53,6 @@ request content upgrade install version latest
 request anti-virus upgrade check
 request anti-virus upgrade download latest
 request anti-virus upgrade install version latest
-
-
-
-
-#  _____      _                 _   _____ _____ _   _   _____             _          
-# |  __ \    | |               | | /  ___/  ___| | | | /  ___|           (_)         
-# | |__) |___| |__   ___   ___ | |_\ `--.\ `--.| |_| | \ `--.  ___ _ ____  _  ___ ___ 
-# |  _  // _ \ '_ \ / _ \ / _ \| __|`--. \`--. \  _  |  `--. \/ _ \ '__\ \/ / / __/ _ \
-# | | \ \  __/ |_) | (_) | (_) | |_/\__/ /\__/ / | | | /\__/ /  __/ |   \  / | (_|  __/
-# |_|  \_\___|_.__/ \___/ \___/ \__\____/\____/\_| |_/ \____/ \___|_|    \_/  \___\___|
 
 
 
