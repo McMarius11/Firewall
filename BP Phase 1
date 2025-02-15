@@ -38,8 +38,6 @@ request certificate generate ca yes days-till-expiry 7300 digest sha512 certific
 configure
 set deviceconfig setting management api key certificate Firewall-API-Cert
 
-commit
-
 #  _____   _____   __  __   __  __   _____   _____ 
 # /  ___| /  _  \ |  \/  | |  \/  |   |_|   |_   _|
 # | |     | | | | | |\/| | | |\/| |    |      | |  
@@ -47,6 +45,7 @@ commit
 # | |___  | |_| | | |  | | | |  | |    |      | |  
 # \_____| \_____/ |_|  |_| |_|  |_|  |_|_|    |_|  
 
+commit
 
 #--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--
 
