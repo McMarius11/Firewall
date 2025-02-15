@@ -10,7 +10,6 @@
 # |___|_| |_| .__/ \__,_|\__| |_| \_|\___|\___| \__,_|\___|\__,_|
 #           |_|                                                  
                                             
-
 configure
 # management interface configuration - may be skipped if already online
 set deviceconfig system hostname {{ FW_NAME }}
@@ -25,18 +24,7 @@ set deviceconfig system dns-setting servers secondary {{ DNS_2 }}
 set deviceconfig system ntp-servers primary-ntp-server ntp-server-address {{ NTP_1 }}
 set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address {{ NTP_2 }}
 
-commit
-request license fetch 
-
-# Antivirus and Apps/Threats are needed for EDLs
-request content upgrade check
-request content upgrade download latest 
-request content upgrade install version latest 
-
-request anti-virus upgrade check
-request anti-virus upgrade download latest
-request anti-virus upgrade install version latest
-
+------------------------------------------------------------------------------------------
 
 # fix weak ssh ciphers
 delete deviceconfig system ssh
@@ -50,6 +38,24 @@ set deviceconfig system ssh mgmt server-profile Fix-Cipher
 request certificate generate ca yes days-till-expiry 7300 digest sha512 certificate-name Firewall-API-Cert name Firewall-API-Cert algorithm RSA rsa-nbits 4096
 configure
 set deviceconfig setting management api key certificate Firewall-API-Cert
+
+commit
+
+--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--
+
+request license fetch 
+
+# Antivirus and Apps/Threats are needed for EDLs
+request content upgrade check
+request content upgrade download latest 
+request content upgrade install version latest 
+
+request anti-virus upgrade check
+request anti-virus upgrade download latest
+request anti-virus upgrade install version latest
+
+
+
 
 commit
 
