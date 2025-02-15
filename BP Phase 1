@@ -1,0 +1,66 @@
+# set command configuration for panos v11.1
+# last edit 15.02.2025 by Marius Kamm
+
+
+
+#  ___                   _     _   _                _         _ 
+# |_ _|_ __  _ __  _   _| |_  | \ | | ___  ___   __| | ___  __| |
+#  | || '_ \| '_ \| | | | __| |  \| |/ _ \/ _ \ / _` |/ _ \/ _` |
+#  | || | | | |_) | |_| | |_  | |\  |  __/  __/| (_| |  __/ (_| |
+# |___|_| |_| .__/ \__,_|\__| |_| \_|\___|\___| \__,_|\___|\__,_|
+#           |_|                                                  
+                                            
+
+configure
+# management interface configuration - may be skipped if already online
+set deviceconfig system hostname {{ FW_NAME }}
+set deviceconfig system ip-address {{ MGMT_IP }}
+set deviceconfig system netmask {{ MGMT_MASK }}
+set deviceconfig system default-gateway {{ MGMT_DG }}
+set deviceconfig system dns-setting servers primary {{ DNS_1 }}
+set deviceconfig system dns-setting servers secondary {{ DNS_2 }}
+
+
+# NTP configuration
+set deviceconfig system ntp-servers primary-ntp-server ntp-server-address {{ NTP_1 }}
+set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address {{ NTP_2 }}
+
+commit
+
+# Antivirus and Apps/Threats are needed for EDLs
+request content upgrade check
+request content upgrade download latest 
+request content upgrade install version latest 
+
+request anti-virus upgrade check
+request anti-virus upgrade download latest
+request anti-virus upgrade install version latest
+
+
+# fix weak ssh ciphers
+delete deviceconfig system ssh
+set deviceconfig system ssh profiles mgmt-profiles server-profiles Fix-Cipher default-hostkey key-type ECDSA 256
+set deviceconfig system ssh profiles mgmt-profiles server-profiles Fix-Cipher ciphers [ aes256-ctr aes256-gcm ]
+set deviceconfig system ssh profiles mgmt-profiles server-profiles Fix-Cipher kex [ ecdh-sha2-nistp256 ecdh-sha2-nistp384 ecdh-sha2-nistp521 ]
+set deviceconfig system ssh profiles mgmt-profiles server-profiles Fix-Cipher mac [ hmac-sha2-256 hmac-sha2-512 ] 
+set deviceconfig system ssh mgmt server-profile Fix-Cipher 
+
+# fix API KeyGen deprecated algorithm
+request certificate generate ca yes days-till-expiry 7300 digest sha512 certificate-name Firewall-API-Cert name Firewall-API-Cert algorithm RSA rsa-nbits 4096
+configure
+set deviceconfig setting management api key certificate Firewall-API-Cert
+
+commit
+
+#  _____      _                 _   _____ _____ _   _   _____             _          
+# |  __ \    | |               | | /  ___/  ___| | | | /  ___|           (_)         
+# | |__) |___| |__   ___   ___ | |_\ `--.\ `--.| |_| | \ `--.  ___ _ ____  _  ___ ___ 
+# |  _  // _ \ '_ \ / _ \ / _ \| __|`--. \`--. \  _  |  `--. \/ _ \ '__\ \/ / / __/ _ \
+# | | \ \  __/ |_) | (_) | (_) | |_/\__/ /\__/ / | | | /\__/ /  __/ |   \  / | (_|  __/
+# |_|  \_\___|_.__/ \___/ \___/ \__\____/\____/\_| |_/ \____/ \___|_|    \_/  \___\___|
+
+
+exit
+set ssh service-restart mgmt 
+
+# After the packages are installed, we can start :)
