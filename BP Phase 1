@@ -26,6 +26,7 @@ set deviceconfig system ntp-servers primary-ntp-server ntp-server-address {{ NTP
 set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address {{ NTP_2 }}
 
 commit
+request license fetch 
 
 # Antivirus and Apps/Threats are needed for EDLs
 request content upgrade check
