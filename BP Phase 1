@@ -15,13 +15,13 @@ set deviceconfig system hostname {{ FW_NAME }}
 set deviceconfig system ip-address {{ MGMT_IP }}
 set deviceconfig system netmask {{ MGMT_MASK }}
 set deviceconfig system default-gateway {{ MGMT_DG }}
-set deviceconfig system dns-setting servers primary {{ DNS_1 }}
-set deviceconfig system dns-setting servers secondary {{ DNS_2 }}
+set deviceconfig system dns-setting servers primary 1.1.1.1
+set deviceconfig system dns-setting servers secondary 8.8.8.8
 
 
 # NTP configuration
-set deviceconfig system ntp-servers primary-ntp-server ntp-server-address {{ NTP_1 }}
-set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address {{ NTP_2 }}
+set deviceconfig system ntp-servers primary-ntp-server ntp-server-address de.pool.ntp.org
+set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address ptbtime1.ptb.de
 
 ------------------------------------------------------------------------------------------
 
@@ -40,7 +40,7 @@ set deviceconfig setting management api key certificate Firewall-API-Cert
 
 commit
 
---WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--
+--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--
 
 request license fetch 
 
@@ -52,7 +52,6 @@ request content upgrade install version latest
 request anti-virus upgrade check
 request anti-virus upgrade download latest
 request anti-virus upgrade install version latest
-
 
 
 
