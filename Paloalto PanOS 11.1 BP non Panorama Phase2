@@ -1,44 +1,25 @@
 # set command configuration for panos v11.1
 # commands are expected to be loaded in order
-# this template uses jinja format
-# either 'search and replace' or the scripts in the tools dir can be used to create a loadable configuration
-# a strong modified version of https://github.com/PaloAltoNetworks/iron-skillet
 # last edit 15.02.2025 by Marius Kamm
 
 
-OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
+configure
+# fix weak ssh ciphers
+delete deviceconfig system ssh
+set deviceconfig system ssh profiles mgmt-profiles server-profiles Fix-Cipher default-hostkey key-type ECDSA 256
+set deviceconfig system ssh profiles mgmt-profiles server-profiles Fix-Cipher ciphers [ aes256-ctr aes256-gcm ]
+set deviceconfig system ssh profiles mgmt-profiles server-profiles Fix-Cipher kex [ ecdh-sha2-nistp256 ecdh-sha2-nistp384 ecdh-sha2-nistp521 ]
+set deviceconfig system ssh profiles mgmt-profiles server-profiles Fix-Cipher mac [ hmac-sha2-256 hmac-sha2-512 ] 
+set deviceconfig system ssh mgmt server-profile Fix-Cipher 
 
-# remove admin/admin default and add user defined super user
-set mgt-config users {{ ADMINISTRATOR_USERNAME }} password
-set mgt-config users {{ ADMINISTRATOR_USERNAME }} permissions role-based superuser yes
+# fix API KeyGen deprecated algorithm
+request certificate generate ca yes days-till-expiry 7300 digest sha512 certificate-name Firewall-API-Cert name Firewall-API-Cert algorithm RSA rsa-nbits 4096
+configure
+set deviceconfig setting management api key certificate Firewall-API-Cert
 
-# best-practice to remove user=admin
-#delete mgt-config users admin
-
-set deviceconfig setting management admin-lockout failed-attempts 5
-set deviceconfig setting management admin-lockout lockout-time 30
-set deviceconfig setting management idle-timeout 10
-set deviceconfig setting management auto-acquire-commit-lock yes
-
-# set password complexity - will not impact existing users
-set mgt-config password-complexity enabled yes
-set mgt-config password-complexity minimum-length 12
-set mgt-config password-complexity minimum-uppercase-letters 1
-set mgt-config password-complexity minimum-lowercase-letters 1
-set mgt-config password-complexity minimum-numeric-letters 1
-set mgt-config password-complexity minimum-special-characters 1
-set mgt-config password-complexity block-username-inclusion yes
-set mgt-config password-complexity password-history-count 24
-set mgt-config password-complexity new-password-differs-by-characters 3
-
-OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
+commit
 
 
-#  ___                   _     _   _                _         _ 
-# |_ _|_ __  _ __  _   _| |_  | \ | | ___  ___   __| | ___  __| |
-#  | || '_ \| '_ \| | | | __| |  \| |/ _ \/ _ \ / _` |/ _ \/ _` |
-#  | || | | | |_) | |_| | |_  | |\  |  __/  __/| (_| |  __/ (_| |
-# |___|_| |_| .__/ \__,_|\__| |_| \_|\___|\___| \__,_|\___|\__,_|
-#           |_|                                                  
-                                            
+exit
+set ssh service-restart mgmt 
 
