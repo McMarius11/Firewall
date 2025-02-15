@@ -1,5 +1,6 @@
 # set command configuration for panos v11.1
 # last edit 15.02.2025 by Marius Kamm
+# ZTP needs to be disabled!
 
 
 #  ___                   _     _   _                _         _ 
