@@ -10,11 +10,8 @@
 #           |_|                                                  
                                             
 configure
-# management interface configuration - may be skipped if already online
+# management interface configuration - may be skipped if already configured
 set deviceconfig system hostname {{ FW_NAME }}
-set deviceconfig system ip-address {{ MGMT_IP }}
-set deviceconfig system netmask {{ MGMT_MASK }}
-set deviceconfig system default-gateway {{ MGMT_DG }}
 set deviceconfig system dns-setting servers primary 1.1.1.1
 set deviceconfig system dns-setting servers secondary 8.8.8.8
 
