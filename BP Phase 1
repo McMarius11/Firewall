@@ -2,17 +2,9 @@
 # last edit 15.02.2025 by Marius Kamm
 # ZTP needs to be disabled!
 
-
-#  ___                   _     _   _                _         _ 
-# |_ _|_ __  _ __  _   _| |_  | \ | | ___  ___   __| | ___  __| |
-#  | || '_ \| '_ \| | | | __| |  \| |/ _ \/ _ \ / _` |/ _ \/ _` |
-#  | || | | | |_) | |_| | |_  | |\  |  __/  __/| (_| |  __/ (_| |
-# |___|_| |_| .__/ \__,_|\__| |_| \_|\___|\___| \__,_|\___|\__,_|
-#           |_|                                                  
-                                            
+     
 configure
 # management interface configuration - may be skipped if already configured
-set deviceconfig system hostname {{ FW_NAME }}
 set deviceconfig system dns-setting servers primary 1.1.1.1
 set deviceconfig system dns-setting servers secondary 8.8.8.8
 
@@ -47,6 +39,14 @@ configure
 set deviceconfig setting management api key certificate Firewall-API-Cert
 
 commit
+
+ _____   _____   __  __   __  __   _____   _____ 
+/  ___| /  _  \ |  \/  | |  \/  |   |_|   |_   _|
+| |     | | | | | |\/| | | |\/| |    |      | |  
+| |     | | | | | |  | | | |  | |    |      | |  
+| |___  | |_| | | |  | | | |  | |    |      | |  
+\_____| \_____/ |_|  |_| |_|  |_|  |_|_|    |_|  
+
 
 #--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--
 
