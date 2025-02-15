@@ -29,6 +29,7 @@ set deviceconfig system ssh profiles mgmt-profiles server-profiles Management ci
 set deviceconfig system ssh profiles mgmt-profiles server-profiles Management kex [ ecdh-sha2-nistp256 ecdh-sha2-nistp384 ecdh-sha2-nistp521 ]
 set deviceconfig system ssh profiles mgmt-profiles server-profiles Management mac [ hmac-sha2-256 hmac-sha2-512 ] 
 set deviceconfig system ssh mgmt server-profile Management
+exit
 
 # fix API KeyGen deprecated algorithm
 request certificate generate ca yes days-till-expiry 7300 digest sha512 certificate-name Firewall-API-Cert name Firewall-API-Cert algorithm RSA rsa-nbits 4096
@@ -39,6 +40,7 @@ commit
 
 #--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--
 
+exit
 request license fetch 
 
 # Antivirus and Apps/Threats are needed for EDLs
@@ -52,7 +54,6 @@ request anti-virus upgrade install version latest
 
 
 
-commit
 
 #  _____      _                 _   _____ _____ _   _   _____             _          
 # |  __ \    | |               | | /  ___/  ___| | | | /  ___|           (_)         
@@ -62,7 +63,7 @@ commit
 # |_|  \_\___|_.__/ \___/ \___/ \__\____/\____/\_| |_/ \____/ \___|_|    \_/  \___\___|
 
 
-exit
+
 set ssh service-restart mgmt
 y
 
