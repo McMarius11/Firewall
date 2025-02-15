@@ -23,6 +23,15 @@ set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address ptbt
 
 ------------------------------------------------------------------------------------------
 
+# delete VW Interfaces and Zones
+delete rulebase security rules rule1
+delete network virtual-wire default-vwire
+delete zone trust
+delete zone untrust
+delete network interface ethernet ethernet1/1
+delete network interface ethernet ethernet1/2
+
+
 # fix weak ssh ciphers
 delete deviceconfig system ssh
 set deviceconfig system ssh profiles mgmt-profiles server-profiles Management default-hostkey key-type ECDSA 256
