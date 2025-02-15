@@ -2,20 +2,26 @@
 # last edit 15.02.2025 by Marius Kamm
 # ZTP needs to be disabled!
 
-     
-configure
+
+
+OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
+
+
 # management interface configuration - may be skipped if already configured
+configure
 set deviceconfig system dns-setting servers primary 1.1.1.1
 set deviceconfig system dns-setting servers secondary 8.8.8.8
-
 
 # NTP configuration
 set deviceconfig system ntp-servers primary-ntp-server ntp-server-address de.pool.ntp.org
 set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address ptbtime1.ptb.de
 
-------------------------------------------------------------------------------------------
+
+OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
+
 
 # deletes virtualwire and interfaces 1/1 & 1/2 and zones
+configure
 delete rulebase security rules rule1
 delete network virtual-wire default-vwire
 delete zone trust
