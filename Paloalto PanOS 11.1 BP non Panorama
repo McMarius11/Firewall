@@ -668,4 +668,3 @@ set shared report-group "Possible Compromise" custom-widget 6 custom-report "Hos
 set shared report-group "Possible Compromise" custom-widget 7 custom-report "Host-visit quest sites plus"
 set shared report-group "Possible Compromise" title-page yes
 set shared report-group "Possible Compromise" variable title value "Possible Compromise"
-
