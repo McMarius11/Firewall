@@ -346,6 +346,7 @@ set rulebase default-security-rules rules interzone-default action drop
 set rulebase default-security-rules rules interzone-default log-start no
 set rulebase default-security-rules rules interzone-default log-end yes
 set rulebase default-security-rules rules interzone-default log-setting default
+
 set rulebase security rules "Outbound EDL Block Rule" description "Block outbound sessions with destination address matching one of the Palo Alto Networks external dynamic lists for high risk and known malicious IP addresses and also tor exit ips."
 set rulebase security rules "Outbound EDL Block Rule" to any
 set rulebase security rules "Outbound EDL Block Rule" from any
