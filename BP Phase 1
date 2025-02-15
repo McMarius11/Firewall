@@ -40,7 +40,7 @@ set deviceconfig setting management api key certificate Firewall-API-Cert
 
 commit
 
---WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--
+#--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--WAIT--
 
 request license fetch 
 
