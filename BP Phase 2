@@ -79,7 +79,7 @@ set shared log-settings profiles default match-list Decryption send-to-panorama 
 set tag Outbound comments "Outbound to the Internet"
 set tag Inbound comments "Inbound from the Internet"
 set tag Internal comments "Internal to Internal"
-set tag deny comments "Traffic who gets denied"
+set tag deny comments "Traffic who gets denied" color color14
 
 
 #File Blocking Profile
