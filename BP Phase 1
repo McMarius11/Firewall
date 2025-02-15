@@ -63,6 +63,7 @@ commit
 
 
 exit
-set ssh service-restart mgmt 
+set ssh service-restart mgmt
+y
 
 # After the packages are installed, we can start with phase 2 :)
