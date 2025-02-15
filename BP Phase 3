@@ -12,3 +12,29 @@
 Policy Rules 
 Tage like WAN LAN with BP Zone Protection
 
+OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
+
+# remove admin/admin default and add user defined super user
+set mgt-config users {{ ADMINISTRATOR_USERNAME }} password
+set mgt-config users {{ ADMINISTRATOR_USERNAME }} permissions role-based superuser yes
+
+# best-practice to remove user=admin
+#delete mgt-config users admin
+
+set deviceconfig setting management admin-lockout failed-attempts 5
+set deviceconfig setting management admin-lockout lockout-time 30
+set deviceconfig setting management idle-timeout 10
+set deviceconfig setting management auto-acquire-commit-lock yes
+
+# set password complexity - will not impact existing users
+set mgt-config password-complexity enabled yes
+set mgt-config password-complexity minimum-length 12
+set mgt-config password-complexity minimum-uppercase-letters 1
+set mgt-config password-complexity minimum-lowercase-letters 1
+set mgt-config password-complexity minimum-numeric-letters 1
+set mgt-config password-complexity minimum-special-characters 1
+set mgt-config password-complexity block-username-inclusion yes
+set mgt-config password-complexity password-history-count 24
+set mgt-config password-complexity new-password-differs-by-characters 3
+
+OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
