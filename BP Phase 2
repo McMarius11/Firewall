@@ -431,18 +431,6 @@ set rulebase decryption rules "NO-Decrypt URL Categories" action no-decrypt
 set rulebase decryption rules "NO-Decrypt URL Categories" disabled yes
 set rulebase decryption rules "NO-Decrypt URL Categories" description "This rule does not do Decryption.  This rule is validating SSL Protocol Communications."
 
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt Categories" category [ financial-services government health-and-medicine Custom-No-Decrypt ]
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" service any
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" type ssl-forward-proxy
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" from any
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" to any
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" source any
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" destination any
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" source-user any
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" profile Recommended_Decryption_Profile
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" action no-decrypt
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" disabled yes
-set rulebase decryption rules "NO-Decrypt Custom-No-Decrypt" description "This rule does not do Decryption.  This rule is validating SSL Protocol Communications."
 
 #Zone Protection Profiles - To Be Added to each Configured Zone
 set network profiles zone-protection-profile Best_Practice_External flood tcp-syn syn-cookies alarm-rate 10000
