@@ -18,54 +18,77 @@ OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL-------------
 
 # Here is the config for Zone-Protection, just change the FW-TEMPLATE to the name of your preferred Template
 
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection flood udp enable no
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 action alert
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 interval 2
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 threshold 100
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 action alert
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 interval 10
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 threshold 100
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 action alert
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 interval 2
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 threshold 100
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection discard-ip-spoof yes
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection discard-malformed-option yes
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection remove-tcp-timestamp yes
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection strip-tcp-fast-open-and-data no
-set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection strip-mptcp-option global
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn red alarm-rate 10000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn red activate-rate 10000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn red maximal-rate 40000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn enable no
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp red alarm-rate 10000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp red activate-rate 10000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp red maximal-rate 40000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp enable no
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp red alarm-rate 10000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp red activate-rate 10000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp red maximal-rate 40000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp enable no
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 red alarm-rate 10000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 red activate-rate 10000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 red maximal-rate 40000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 enable no
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip red alarm-rate 10000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip red activate-rate 10000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip red maximal-rate 40000
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip enable no
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8001 action alert
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8001 interval 2
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8001 threshold 100
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8002 action alert
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8002 interval 10
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8002 threshold 100
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8003 action alert
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8003 interval 2
-set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8003 threshold 100
+configure
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood udp enable no
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood udp red alarm-rate 10000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood udp red activate-rate 10000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood udp red maximal-rate 40000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood tcp-syn red alarm-rate 10000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood tcp-syn red activate-rate 10000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood tcp-syn red maximal-rate 40000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood tcp-syn enable no
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood icmp red alarm-rate 10000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood icmp red activate-rate 10000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood icmp red maximal-rate 40000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood icmp enable no
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood icmpv6 red alarm-rate 10000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood icmpv6 red activate-rate 10000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood icmpv6 red maximal-rate 40000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood icmpv6 enable no
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood other-ip red alarm-rate 10000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood other-ip red activate-rate 10000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood other-ip red maximal-rate 40000
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection flood other-ip enable no
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 action alert
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 interval 2
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 threshold 100
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 action alert
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 interval 10
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 threshold 100
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 action alert
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 interval 2
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 threshold 100
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8006 action alert
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8006 interval 2
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection scan 8006 threshold 4
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection discard-ip-spoof yes
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection discard-malformed-option yes
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection remove-tcp-timestamp yes
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection strip-tcp-fast-open-and-data no
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection strip-mptcp-option global
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection net-inspection rule
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection discard-strict-source-routing yes
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection discard-loose-source-routing yes
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection discard-unknown-option yes
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection discard-tcp-split-handshake yes
+set template FW-TEMPLATE config  network profiles zone-protection-profile Recommended_Zone_Protection discard-overlapping-tcp-segment-mismatch yes
+
 
 
 OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
 
+
+
+# fix API KeyGen deprecated algorithm
+request certificate generate ca yes days-till-expiry 7300 digest sha512 certificate-name Panorama-API-Cert name Panorama-API-Cert algorithm RSA rsa-nbits 4096
+configure
+set deviceconfig setting management api key certificate Panorama-API-Cert
+commit
+  
+
+# fix for API KeyGen warning on Firewalls - sadly you have to generate the certificate manually and select it under device-api cert
+
+
+#  _____      _                 _   _____ _____ _   _   _____             _          
+# |  __ \    | |               | | /  ___/  ___| | | | /  ___|           (_)         
+# | |__) |___| |__   ___   ___ | |_\ `--.\ `--.| |_| | \ `--.  ___ _ ____  _  ___ ___ 
+# |  _  // _ \ '_ \ / _ \ / _ \| __|`--. \`--. \  _  |  `--. \/ _ \ '__\ \/ / / __/ _ \
+# | | \ \  __/ |_) | (_) | (_) | |_/\__/ /\__/ / | | | /\__/ /  __/ |   \  / | (_|  __/
+# |_|  \_\___|_.__/ \___/ \___/ \__\____/\____/\_| |_/ \____/ \___|_|    \_/  \___\___|
+
+
+exit
+set ssh service-restart mgmt 
 
 
 
