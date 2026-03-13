@@ -1,0 +1,1224 @@
+# set command configuration for panos for Panorama v11.1
+# commands are expected to be loaded in order
+# this template uses jinja format
+# either 'search and replace' or the scripts in the tools dir can be used to create a loadable configuration
+# a strong modified version of https://github.com/PaloAltoNetworks/iron-skillet
+# last edit 13.03.2026 by Marius Kamm
+Source: https://github.com/PaloAltoNetworks/iron-skillet/blob/panos_v11.0/templates/panorama/set_commands/iron_skillet_panorama_full.conf
+
+ _    _  ___  ____  _  __   ___ _  _   ____  ____   ___   ____  ____  _____ ____ ____
+| |  | |/ _ \|  _ \| |/ /  |_ _| \| | |  _ \|  _ \ / _ \ / ___||  _ \| ____/ ___/ ___|
+| |  | | | | | |_) | ' /    | || .` | | |_) | |_) | | | | |  _ | |_) |  _| \___ \___ \
+| |__| | |_| |  _ <| . \    | || |\  |  __/|  _ <| |_| | |_| ||  __/| |___ ___) |__) |
+|_____/ \___/|_| \_\_|\_\  |___|_| \_|_|   |_| \_\\___/ \____|_|   |_____|____/____/
+
+# It fixes the Certificate Warning, adds Zone Protection to a Template that you like and adds admin roles für T_Global and also for Panorama
+
+OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
+
+# Here is the config for Zone-Protection, just change the FW-TEMPLATE to the name of your preferred Template
+
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection flood udp enable no
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 action alert
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 interval 2
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8001 threshold 100
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 action alert
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 interval 10
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8002 threshold 100
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 action alert
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 interval 2
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection scan 8003 threshold 100
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection discard-ip-spoof yes
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection discard-malformed-option yes
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection remove-tcp-timestamp yes
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection strip-tcp-fast-open-and-data no
+set template FW-TEMPLATE config network profiles zone-protection-profile Recommended_Zone_Protection strip-mptcp-option global
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn red alarm-rate 10000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn red activate-rate 10000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn red maximal-rate 40000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood tcp-syn enable no
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp red alarm-rate 10000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp red activate-rate 10000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp red maximal-rate 40000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood udp enable no
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp red alarm-rate 10000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp red activate-rate 10000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp red maximal-rate 40000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmp enable no
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 red alarm-rate 10000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 red activate-rate 10000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 red maximal-rate 40000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood icmpv6 enable no
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip red alarm-rate 10000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip red activate-rate 10000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip red maximal-rate 40000
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection flood other-ip enable no
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8001 action alert
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8001 interval 2
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8001 threshold 100
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8002 action alert
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8002 interval 10
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8002 threshold 100
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8003 action alert
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8003 interval 2
+set template FW-TEMPLATE config network profiles zone-protection-profile Alert_Only_Zone_Protection scan 8003 threshold 100
+
+
+OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
+
+
+
+
+#admin role for panorama and firewalls
+set template T_Global config shared admin-role FULL-CONTROL role device webui dashboard enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui acc enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs traffic enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs threat enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs url enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs wildfire enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs data-filtering enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs hipmatch enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs globalprotect enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs iptag enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs userid enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs decryption enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs tunnel enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs configuration enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs system enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs alarm enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor logs authentication enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor external-logs enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor automated-correlation-engine correlation-objects enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor automated-correlation-engine correlated-events enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor packet-capture enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor app-scope enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor session-browser enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor block-ip-list enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor botnet enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor pdf-reports manage-pdf-summary enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor pdf-reports pdf-summary-reports enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor pdf-reports user-activity-report enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor pdf-reports saas-application-usage-report enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor pdf-reports report-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor pdf-reports email-scheduler enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports application-statistics enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports data-filtering-log enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports threat-log enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports threat-summary enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports traffic-log enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports traffic-summary enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports url-log enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports url-summary enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports hipmatch enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports globalprotect enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports wildfire-log enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports tunnel-log enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports tunnel-summary enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports iptag enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports userid enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor custom-reports auth enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor view-custom-reports enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor application-reports enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor threat-reports enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor url-filtering-reports enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui monitor traffic-reports enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies security-rulebase enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies nat-rulebase enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies qos-rulebase enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies pbf-rulebase enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies ssl-decryption-rulebase enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies tunnel-inspect-rulebase enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies application-override-rulebase enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies authentication-rulebase enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies dos-rulebase enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies sdwan-rulebase enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui policies rule-hit-count-reset enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects addresses enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects address-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects regions enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects dynamic-user-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects applications enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects application-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects application-filters enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects services enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects service-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects tags enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects devices enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects global-protect hip-objects enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects global-protect hip-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects dynamic-block-lists enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects custom-objects data-patterns enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects custom-objects spyware enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects custom-objects vulnerability enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects custom-objects url-category enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects security-profiles antivirus enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects security-profiles anti-spyware enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects security-profiles vulnerability-protection enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects security-profiles url-filtering enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects security-profiles file-blocking enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects security-profiles wildfire-analysis enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects security-profiles data-filtering enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects security-profiles dos-protection enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects security-profile-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects log-forwarding enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects authentication enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects decryption decryption-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects decryption decryption-forwarding-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects sdwan sdwan-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects sdwan sdwan-saas-quality-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects sdwan sdwan-dist-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects sdwan sdwan-error-correction-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui objects schedules enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network interfaces enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network zones enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network vlans enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network virtual-wires enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network virtual-routers enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network ipsec-tunnels enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network gre-tunnels enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network dhcp enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network dns-proxy enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network global-protect portals enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network global-protect gateways enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network global-protect mdm enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network global-protect clientless-apps enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network global-protect clientless-app-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network qos enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network lldp enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network network-profiles gp-app-ipsec-crypto enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network network-profiles ike-gateways enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network network-profiles ipsec-crypto enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network network-profiles ike-crypto enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network network-profiles tunnel-monitor enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network network-profiles interface-mgmt enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network network-profiles zone-protection enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network network-profiles qos-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network network-profiles lldp-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network network-profiles bfd-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui network sdwan-interface-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device setup management enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device setup operations enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device setup services enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device setup interfaces enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device setup telemetry enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device setup content-id enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device setup wildfire enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device setup session enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device setup hsm enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device high-availability enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device log-fwd-card enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device config-audit enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device administrators read-only
+set template T_Global config shared admin-role FULL-CONTROL role device webui device admin-roles read-only
+set template T_Global config shared admin-role FULL-CONTROL role device webui device access-domain enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device authentication-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device authentication-sequence enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device user-identification enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device data-redistribution enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device device-quarantine enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device vm-info-source enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device troubleshooting enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device virtual-systems enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device shared-gateways enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device certificate-management certificates enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device certificate-management certificate-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device certificate-management ocsp-responder enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device certificate-management ssl-tls-service-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device certificate-management scep enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device certificate-management ssl-decryption-exclusion enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device certificate-management ssh-service-profile enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device block-pages enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device log-settings system enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device log-settings config enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device log-settings iptag enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device log-settings user-id enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device log-settings hipmatch enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device log-settings globalprotect enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device log-settings correlation enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device log-settings cc-alarm enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device log-settings manage-log enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile snmp-trap enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile syslog enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile email enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile http enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile netflow enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile radius enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile tacplus enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile ldap enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile kerberos enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile saml_idp enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile dns enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device server-profile mfa enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device local-user-database users enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device local-user-database user-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device scheduled-log-export enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device software enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device global-protect-client enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device dynamic-updates enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device plugins enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device licenses enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device support enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device master-key enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui device policy-recommendation enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui operations reboot enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui operations generate-tech-support-file enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui operations generate-stats-dump-file enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui operations download-core-files enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui privacy show-full-ip-addresses enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui privacy show-user-names-in-logs-and-reports enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui privacy view-pcap-files enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui validate enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui save partial-save enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui save save-for-other-admins enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui commit device enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui commit commit-for-other-admins enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui tasks enable
+set template T_Global config shared admin-role FULL-CONTROL role device webui global system-alarms enable
+set template T_Global config shared admin-role FULL-CONTROL role device xmlapi 
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects addresses enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects address-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects regions enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects dynamic-user-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects applications enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects application-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects application-filters enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects services enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects service-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects tags enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects devices enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects globalprotect-hip-objects enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects globalprotect-hip-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects external-dynamic-lists enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects custom-data-patterns enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects custom-spyware-signatures enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects custom-vulnerability-signatures enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects custom-url-categories enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects antivirus-security-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects anti-spyware-security-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects vulnerability-protection-security-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects url-filtering-security-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects file-blocking-security-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects wildfire-analysis-security-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects data-filtering-security-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects dos-protection-security-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects gtp-protection-security-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects sctp-protection-security-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects security-profile-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects log-forwarding-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects authentication-enforcements enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects decryption-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects decryption-forwarding-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects schedules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects sdwan-path-quality-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects sdwan-saas-quality-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects sdwan-traffic-distribution-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi objects sdwan-error-correction-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi policies security-rules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi policies nat-rules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi policies qos-rules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi policies policy-based-forwarding-rules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi policies decryption-rules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi policies tunnel-inspection-rules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi policies application-override-rules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi policies authentication-rules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi policies dos-rules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi policies sdwan-rules enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network aggregate-ethernet-interfaces enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network ethernet-interfaces enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network vlan-interfaces enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network loopback-interfaces enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network tunnel-interfaces enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network zones enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network vlans enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network virtual-wires enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network virtual-routers enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network logical-routers enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network bgp-routing-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network ipsec-tunnels enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network gre-tunnels enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network dhcp-servers enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network dhcp-relays enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network dns-proxies enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network globalprotect-portals enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network globalprotect-gateways enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network globalprotect-mdm-servers enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network globalprotect-clientless-apps enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network globalprotect-clientless-app-groups enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network qos-interfaces enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network lldp enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network globalprotect-ipsec-crypto-network-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network ike-gateway-network-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network ipsec-crypto-network-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network ike-crypto-network-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network tunnel-monitor-network-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network interface-management-network-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network zone-protection-network-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network qos-network-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network lldp-network-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network bfd-network-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network sdwan-interfaces enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi network sdwan-interface-profiles enable
+set template T_Global config shared admin-role FULL-CONTROL role device restapi device virtual-systems enable
+set template T_Global config shared admin-role READ-ONLY role device webui dashboard enable
+set template T_Global config shared admin-role READ-ONLY role device webui acc enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs traffic enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs threat enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs url enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs wildfire enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs data-filtering enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs hipmatch enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs globalprotect enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs iptag enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs userid enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs decryption enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs tunnel enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs configuration enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs system enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs alarm enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor logs authentication enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor external-logs enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor automated-correlation-engine correlation-objects enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor automated-correlation-engine correlated-events enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor packet-capture read-only
+set template T_Global config shared admin-role READ-ONLY role device webui monitor app-scope enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor session-browser read-only
+set template T_Global config shared admin-role READ-ONLY role device webui monitor block-ip-list read-only
+set template T_Global config shared admin-role READ-ONLY role device webui monitor botnet read-only
+set template T_Global config shared admin-role READ-ONLY role device webui monitor pdf-reports manage-pdf-summary read-only
+set template T_Global config shared admin-role READ-ONLY role device webui monitor pdf-reports pdf-summary-reports enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor pdf-reports user-activity-report read-only
+set template T_Global config shared admin-role READ-ONLY role device webui monitor pdf-reports saas-application-usage-report read-only
+set template T_Global config shared admin-role READ-ONLY role device webui monitor pdf-reports report-groups read-only
+set template T_Global config shared admin-role READ-ONLY role device webui monitor pdf-reports email-scheduler read-only
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports application-statistics enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports data-filtering-log enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports threat-log enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports threat-summary enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports traffic-log enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports traffic-summary enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports url-log enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports url-summary enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports hipmatch enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports globalprotect enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports wildfire-log enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports tunnel-log enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports tunnel-summary enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports iptag enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports userid enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor custom-reports auth enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor view-custom-reports enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor application-reports enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor threat-reports enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor url-filtering-reports enable
+set template T_Global config shared admin-role READ-ONLY role device webui monitor traffic-reports enable
+set template T_Global config shared admin-role READ-ONLY role device webui policies security-rulebase read-only
+set template T_Global config shared admin-role READ-ONLY role device webui policies nat-rulebase read-only
+set template T_Global config shared admin-role READ-ONLY role device webui policies qos-rulebase read-only
+set template T_Global config shared admin-role READ-ONLY role device webui policies pbf-rulebase read-only
+set template T_Global config shared admin-role READ-ONLY role device webui policies ssl-decryption-rulebase read-only
+set template T_Global config shared admin-role READ-ONLY role device webui policies tunnel-inspect-rulebase read-only
+set template T_Global config shared admin-role READ-ONLY role device webui policies application-override-rulebase read-only
+set template T_Global config shared admin-role READ-ONLY role device webui policies authentication-rulebase read-only
+set template T_Global config shared admin-role READ-ONLY role device webui policies dos-rulebase read-only
+set template T_Global config shared admin-role READ-ONLY role device webui policies sdwan-rulebase read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects addresses read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects address-groups read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects regions read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects dynamic-user-groups read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects applications read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects application-groups read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects application-filters read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects services read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects service-groups read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects tags read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects devices read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects global-protect hip-objects read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects global-protect hip-profiles read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects dynamic-block-lists read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects custom-objects data-patterns read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects custom-objects spyware read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects custom-objects vulnerability read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects custom-objects url-category read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects security-profiles antivirus read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects security-profiles anti-spyware read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects security-profiles vulnerability-protection read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects security-profiles url-filtering read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects security-profiles file-blocking read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects security-profiles wildfire-analysis read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects security-profiles data-filtering read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects security-profiles dos-protection read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects security-profile-groups read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects log-forwarding read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects authentication read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects decryption decryption-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects decryption decryption-forwarding-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects sdwan sdwan-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects sdwan sdwan-saas-quality-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects sdwan sdwan-dist-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects sdwan sdwan-error-correction-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui objects schedules read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network interfaces read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network zones read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network vlans read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network virtual-wires read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network virtual-routers read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network ipsec-tunnels read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network gre-tunnels read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network dhcp read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network dns-proxy read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network global-protect portals read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network global-protect gateways read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network global-protect mdm read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network global-protect clientless-apps read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network global-protect clientless-app-groups read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network qos read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network lldp read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network network-profiles gp-app-ipsec-crypto read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network network-profiles ike-gateways read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network network-profiles ipsec-crypto read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network network-profiles ike-crypto read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network network-profiles tunnel-monitor read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network network-profiles interface-mgmt read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network network-profiles zone-protection read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network network-profiles qos-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network network-profiles lldp-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network network-profiles bfd-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui network sdwan-interface-profile enable
+set template T_Global config shared admin-role READ-ONLY role device webui device setup management read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device setup operations read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device setup services read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device setup interfaces read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device setup telemetry read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device setup content-id read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device setup wildfire read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device setup session read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device setup hsm read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device high-availability read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device log-fwd-card read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device config-audit enable
+set template T_Global config shared admin-role READ-ONLY role device webui device administrators read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device admin-roles read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device access-domain read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device authentication-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device authentication-sequence read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device user-identification read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device data-redistribution read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device device-quarantine read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device vm-info-source read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device troubleshooting read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device virtual-systems read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device shared-gateways read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device certificate-management certificates read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device certificate-management certificate-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device certificate-management ocsp-responder read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device certificate-management ssl-tls-service-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device certificate-management scep read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device certificate-management ssl-decryption-exclusion read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device certificate-management ssh-service-profile read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device block-pages read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device log-settings system read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device log-settings config read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device log-settings iptag read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device log-settings user-id read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device log-settings hipmatch read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device log-settings globalprotect read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device log-settings correlation read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device log-settings cc-alarm read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device log-settings manage-log read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile snmp-trap read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile syslog read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile email read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile http read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile netflow read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile radius read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile tacplus read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile ldap read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile kerberos read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile saml_idp read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile dns read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device server-profile mfa read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device local-user-database users read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device local-user-database user-groups read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device scheduled-log-export enable
+set template T_Global config shared admin-role READ-ONLY role device webui device software read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device dynamic-updates read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device plugins enable
+set template T_Global config shared admin-role READ-ONLY role device webui device licenses read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device support read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device master-key read-only
+set template T_Global config shared admin-role READ-ONLY role device webui device policy-recommendation read-only
+set template T_Global config shared admin-role READ-ONLY role device webui privacy show-full-ip-addresses enable
+set template T_Global config shared admin-role READ-ONLY role device webui privacy show-user-names-in-logs-and-reports enable
+set template T_Global config shared admin-role READ-ONLY role device webui privacy view-pcap-files enable
+set template T_Global config shared admin-role READ-ONLY role device webui validate enable
+set template T_Global config shared admin-role READ-ONLY role device webui tasks enable
+set template T_Global config shared admin-role READ-ONLY role device webui global system-alarms enable
+set template T_Global config shared admin-role READ-ONLY role device xmlapi 
+set template T_Global config shared admin-role READ-ONLY role device restapi objects addresses enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects address-groups enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects regions enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects dynamic-user-groups enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects applications enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects application-groups enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects application-filters enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects services enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects service-groups enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects tags enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects devices enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects globalprotect-hip-objects enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects globalprotect-hip-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects external-dynamic-lists enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects custom-data-patterns enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects custom-spyware-signatures enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects custom-vulnerability-signatures enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects custom-url-categories enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects antivirus-security-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects anti-spyware-security-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects vulnerability-protection-security-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects url-filtering-security-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects file-blocking-security-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects wildfire-analysis-security-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects data-filtering-security-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects dos-protection-security-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects gtp-protection-security-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects sctp-protection-security-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects security-profile-groups enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects log-forwarding-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects authentication-enforcements enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects decryption-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects decryption-forwarding-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects schedules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects sdwan-path-quality-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects sdwan-saas-quality-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects sdwan-traffic-distribution-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi objects sdwan-error-correction-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi policies security-rules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi policies nat-rules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi policies qos-rules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi policies policy-based-forwarding-rules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi policies decryption-rules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi policies tunnel-inspection-rules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi policies application-override-rules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi policies authentication-rules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi policies dos-rules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi policies sdwan-rules enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network aggregate-ethernet-interfaces enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network ethernet-interfaces enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network vlan-interfaces enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network loopback-interfaces enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network tunnel-interfaces enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network zones enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network vlans enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network virtual-wires enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network virtual-routers enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network logical-routers enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network bgp-routing-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network ipsec-tunnels enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network gre-tunnels enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network dhcp-servers enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network dhcp-relays enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network dns-proxies enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network globalprotect-portals enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network globalprotect-gateways enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network globalprotect-mdm-servers enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network globalprotect-clientless-apps enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network globalprotect-clientless-app-groups enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network qos-interfaces enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network lldp enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network globalprotect-ipsec-crypto-network-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network ike-gateway-network-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network ipsec-crypto-network-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network ike-crypto-network-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network tunnel-monitor-network-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network interface-management-network-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network zone-protection-network-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network qos-network-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network lldp-network-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network bfd-network-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network sdwan-interfaces enable
+set template T_Global config shared admin-role READ-ONLY role device restapi network sdwan-interface-profiles enable
+set template T_Global config shared admin-role READ-ONLY role device restapi device virtual-systems enable
+set shared admin-role FULL-CONTROL role device-group device-admin-role FULL-CONTROL
+set shared admin-role FULL-CONTROL role device-group webui dashboard enable
+set shared admin-role FULL-CONTROL role device-group webui acc enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs traffic enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs threat enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs url enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs wildfire enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs data-filtering enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs hipmatch enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs globalprotect enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs iptag enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs userid enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs decryption enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs tunnel enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs configuration enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs system enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs alarm enable
+set shared admin-role FULL-CONTROL role device-group webui monitor logs authentication enable
+set shared admin-role FULL-CONTROL role device-group webui monitor external-logs enable
+set shared admin-role FULL-CONTROL role device-group webui monitor automated-correlation-engine correlation-objects enable
+set shared admin-role FULL-CONTROL role device-group webui monitor automated-correlation-engine correlated-events enable
+set shared admin-role FULL-CONTROL role device-group webui monitor app-scope enable
+set shared admin-role FULL-CONTROL role device-group webui monitor pdf-reports manage-pdf-summary enable
+set shared admin-role FULL-CONTROL role device-group webui monitor pdf-reports pdf-summary-reports enable
+set shared admin-role FULL-CONTROL role device-group webui monitor pdf-reports user-activity-report enable
+set shared admin-role FULL-CONTROL role device-group webui monitor pdf-reports saas-application-usage-report enable
+set shared admin-role FULL-CONTROL role device-group webui monitor pdf-reports report-groups enable
+set shared admin-role FULL-CONTROL role device-group webui monitor pdf-reports email-scheduler enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports application-statistics enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports data-filtering-log enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports threat-log enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports threat-summary enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports traffic-log enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports traffic-summary enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports url-log enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports url-summary enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports hipmatch enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports globalprotect enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports wildfire-log enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports tunnel-log enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports tunnel-summary enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports iptag enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports userid enable
+set shared admin-role FULL-CONTROL role device-group webui monitor custom-reports auth enable
+set shared admin-role FULL-CONTROL role device-group webui monitor view-custom-reports enable
+set shared admin-role FULL-CONTROL role device-group webui monitor application-reports enable
+set shared admin-role FULL-CONTROL role device-group webui monitor threat-reports enable
+set shared admin-role FULL-CONTROL role device-group webui monitor url-filtering-reports enable
+set shared admin-role FULL-CONTROL role device-group webui monitor traffic-reports enable
+set shared admin-role FULL-CONTROL role device-group webui policies security-rulebase enable
+set shared admin-role FULL-CONTROL role device-group webui policies nat-rulebase enable
+set shared admin-role FULL-CONTROL role device-group webui policies qos-rulebase enable
+set shared admin-role FULL-CONTROL role device-group webui policies pbf-rulebase enable
+set shared admin-role FULL-CONTROL role device-group webui policies ssl-decryption-rulebase enable
+set shared admin-role FULL-CONTROL role device-group webui policies tunnel-inspect-rulebase enable
+set shared admin-role FULL-CONTROL role device-group webui policies application-override-rulebase enable
+set shared admin-role FULL-CONTROL role device-group webui policies authentication-rulebase enable
+set shared admin-role FULL-CONTROL role device-group webui policies dos-rulebase enable
+set shared admin-role FULL-CONTROL role device-group webui policies sdwan-rulebase enable
+set shared admin-role FULL-CONTROL role device-group webui policies rule-hit-count-reset enable
+set shared admin-role FULL-CONTROL role device-group webui objects addresses enable
+set shared admin-role FULL-CONTROL role device-group webui objects address-groups enable
+set shared admin-role FULL-CONTROL role device-group webui objects regions enable
+set shared admin-role FULL-CONTROL role device-group webui objects dynamic-user-groups enable
+set shared admin-role FULL-CONTROL role device-group webui objects applications enable
+set shared admin-role FULL-CONTROL role device-group webui objects application-groups enable
+set shared admin-role FULL-CONTROL role device-group webui objects application-filters enable
+set shared admin-role FULL-CONTROL role device-group webui objects services enable
+set shared admin-role FULL-CONTROL role device-group webui objects service-groups enable
+set shared admin-role FULL-CONTROL role device-group webui objects tags enable
+set shared admin-role FULL-CONTROL role device-group webui objects devices enable
+set shared admin-role FULL-CONTROL role device-group webui objects global-protect hip-objects enable
+set shared admin-role FULL-CONTROL role device-group webui objects global-protect hip-profiles enable
+set shared admin-role FULL-CONTROL role device-group webui objects dynamic-block-lists enable
+set shared admin-role FULL-CONTROL role device-group webui objects custom-objects data-patterns enable
+set shared admin-role FULL-CONTROL role device-group webui objects custom-objects spyware enable
+set shared admin-role FULL-CONTROL role device-group webui objects custom-objects vulnerability enable
+set shared admin-role FULL-CONTROL role device-group webui objects custom-objects url-category enable
+set shared admin-role FULL-CONTROL role device-group webui objects security-profiles antivirus enable
+set shared admin-role FULL-CONTROL role device-group webui objects security-profiles anti-spyware enable
+set shared admin-role FULL-CONTROL role device-group webui objects security-profiles vulnerability-protection enable
+set shared admin-role FULL-CONTROL role device-group webui objects security-profiles url-filtering enable
+set shared admin-role FULL-CONTROL role device-group webui objects security-profiles file-blocking enable
+set shared admin-role FULL-CONTROL role device-group webui objects security-profiles wildfire-analysis enable
+set shared admin-role FULL-CONTROL role device-group webui objects security-profiles data-filtering enable
+set shared admin-role FULL-CONTROL role device-group webui objects security-profiles dos-protection enable
+set shared admin-role FULL-CONTROL role device-group webui objects security-profile-groups enable
+set shared admin-role FULL-CONTROL role device-group webui objects log-forwarding enable
+set shared admin-role FULL-CONTROL role device-group webui objects authentication enable
+set shared admin-role FULL-CONTROL role device-group webui objects decryption decryption-profile enable
+set shared admin-role FULL-CONTROL role device-group webui objects decryption decryption-forwarding-profile enable
+set shared admin-role FULL-CONTROL role device-group webui objects sdwan sdwan-profile enable
+set shared admin-role FULL-CONTROL role device-group webui objects sdwan sdwan-saas-quality-profile enable
+set shared admin-role FULL-CONTROL role device-group webui objects sdwan sdwan-dist-profile enable
+set shared admin-role FULL-CONTROL role device-group webui objects sdwan sdwan-error-correction-profile enable
+set shared admin-role FULL-CONTROL role device-group webui objects schedules enable
+set shared admin-role FULL-CONTROL role device-group webui network interfaces enable
+set shared admin-role FULL-CONTROL role device-group webui network zones enable
+set shared admin-role FULL-CONTROL role device-group webui network vlans enable
+set shared admin-role FULL-CONTROL role device-group webui network virtual-wires enable
+set shared admin-role FULL-CONTROL role device-group webui network virtual-routers enable
+set shared admin-role FULL-CONTROL role device-group webui network ipsec-tunnels enable
+set shared admin-role FULL-CONTROL role device-group webui network gre-tunnels enable
+set shared admin-role FULL-CONTROL role device-group webui network dhcp enable
+set shared admin-role FULL-CONTROL role device-group webui network dns-proxy enable
+set shared admin-role FULL-CONTROL role device-group webui network global-protect portals enable
+set shared admin-role FULL-CONTROL role device-group webui network global-protect gateways enable
+set shared admin-role FULL-CONTROL role device-group webui network global-protect mdm enable
+set shared admin-role FULL-CONTROL role device-group webui network global-protect clientless-apps enable
+set shared admin-role FULL-CONTROL role device-group webui network global-protect clientless-app-groups enable
+set shared admin-role FULL-CONTROL role device-group webui network qos enable
+set shared admin-role FULL-CONTROL role device-group webui network lldp enable
+set shared admin-role FULL-CONTROL role device-group webui network network-profiles gp-app-ipsec-crypto enable
+set shared admin-role FULL-CONTROL role device-group webui network network-profiles ike-gateways enable
+set shared admin-role FULL-CONTROL role device-group webui network network-profiles ipsec-crypto enable
+set shared admin-role FULL-CONTROL role device-group webui network network-profiles ike-crypto enable
+set shared admin-role FULL-CONTROL role device-group webui network network-profiles tunnel-monitor enable
+set shared admin-role FULL-CONTROL role device-group webui network network-profiles interface-mgmt enable
+set shared admin-role FULL-CONTROL role device-group webui network network-profiles zone-protection enable
+set shared admin-role FULL-CONTROL role device-group webui network network-profiles qos-profile enable
+set shared admin-role FULL-CONTROL role device-group webui network network-profiles lldp-profile enable
+set shared admin-role FULL-CONTROL role device-group webui network network-profiles bfd-profile enable
+set shared admin-role FULL-CONTROL role device-group webui network sdwan-interface-profile enable
+set shared admin-role FULL-CONTROL role device-group webui device setup management enable
+set shared admin-role FULL-CONTROL role device-group webui device setup operations enable
+set shared admin-role FULL-CONTROL role device-group webui device setup services enable
+set shared admin-role FULL-CONTROL role device-group webui device setup interfaces enable
+set shared admin-role FULL-CONTROL role device-group webui device setup telemetry enable
+set shared admin-role FULL-CONTROL role device-group webui device setup content-id enable
+set shared admin-role FULL-CONTROL role device-group webui device setup wildfire enable
+set shared admin-role FULL-CONTROL role device-group webui device setup session enable
+set shared admin-role FULL-CONTROL role device-group webui device setup hsm enable
+set shared admin-role FULL-CONTROL role device-group webui device high-availability enable
+set shared admin-role FULL-CONTROL role device-group webui device log-fwd-card enable
+set shared admin-role FULL-CONTROL role device-group webui device config-audit enable
+set shared admin-role FULL-CONTROL role device-group webui device administrators enable
+set shared admin-role FULL-CONTROL role device-group webui device admin-roles enable
+set shared admin-role FULL-CONTROL role device-group webui device access-domain enable
+set shared admin-role FULL-CONTROL role device-group webui device authentication-profile enable
+set shared admin-role FULL-CONTROL role device-group webui device authentication-sequence enable
+set shared admin-role FULL-CONTROL role device-group webui device user-identification enable
+set shared admin-role FULL-CONTROL role device-group webui device data-redistribution enable
+set shared admin-role FULL-CONTROL role device-group webui device virtual-systems enable
+set shared admin-role FULL-CONTROL role device-group webui device shared-gateways enable
+set shared admin-role FULL-CONTROL role device-group webui device certificate-management certificates enable
+set shared admin-role FULL-CONTROL role device-group webui device certificate-management certificate-profile enable
+set shared admin-role FULL-CONTROL role device-group webui device certificate-management ocsp-responder enable
+set shared admin-role FULL-CONTROL role device-group webui device certificate-management ssl-tls-service-profile enable
+set shared admin-role FULL-CONTROL role device-group webui device certificate-management scep enable
+set shared admin-role FULL-CONTROL role device-group webui device certificate-management ssl-decryption-exclusion enable
+set shared admin-role FULL-CONTROL role device-group webui device certificate-management ssh-service-profile enable
+set shared admin-role FULL-CONTROL role device-group webui device block-pages enable
+set shared admin-role FULL-CONTROL role device-group webui device log-settings system enable
+set shared admin-role FULL-CONTROL role device-group webui device log-settings config enable
+set shared admin-role FULL-CONTROL role device-group webui device log-settings user-id enable
+set shared admin-role FULL-CONTROL role device-group webui device log-settings hipmatch enable
+set shared admin-role FULL-CONTROL role device-group webui device log-settings globalprotect enable
+set shared admin-role FULL-CONTROL role device-group webui device log-settings iptag enable
+set shared admin-role FULL-CONTROL role device-group webui device log-settings correlation enable
+set shared admin-role FULL-CONTROL role device-group webui device log-settings cc-alarm enable
+set shared admin-role FULL-CONTROL role device-group webui device log-settings manage-log enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile snmp-trap enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile syslog enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile email enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile http enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile netflow enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile radius enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile tacplus enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile ldap enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile kerberos enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile saml_idp enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile dns enable
+set shared admin-role FULL-CONTROL role device-group webui device server-profile mfa enable
+set shared admin-role FULL-CONTROL role device-group webui device local-user-database users enable
+set shared admin-role FULL-CONTROL role device-group webui device local-user-database user-groups enable
+set shared admin-role FULL-CONTROL role device-group webui device scheduled-log-export enable
+set shared admin-role FULL-CONTROL role device-group webui device software enable
+set shared admin-role FULL-CONTROL role device-group webui device global-protect-client enable
+set shared admin-role FULL-CONTROL role device-group webui device dynamic-updates enable
+set shared admin-role FULL-CONTROL role device-group webui device licenses enable
+set shared admin-role FULL-CONTROL role device-group webui device support enable
+set shared admin-role FULL-CONTROL role device-group webui device master-key enable
+set shared admin-role FULL-CONTROL role device-group webui panorama setup operations enable
+set shared admin-role FULL-CONTROL role device-group webui panorama config-audit enable
+set shared admin-role FULL-CONTROL role device-group webui panorama device-quarantine enable
+set shared admin-role FULL-CONTROL role device-group webui panorama managed-devices summary enable
+set shared admin-role FULL-CONTROL role device-group webui panorama managed-devices health read-only
+set shared admin-role FULL-CONTROL role device-group webui panorama managed-devices troubleshooting enable
+set shared admin-role FULL-CONTROL role device-group webui panorama templates enable
+set shared admin-role FULL-CONTROL role device-group webui panorama device-groups enable
+set shared admin-role FULL-CONTROL role device-group webui panorama deployment software enable
+set shared admin-role FULL-CONTROL role device-group webui panorama deployment global-protect-client enable
+set shared admin-role FULL-CONTROL role device-group webui panorama deployment dynamic-updates enable
+set shared admin-role FULL-CONTROL role device-group webui panorama deployment plugins enable
+set shared admin-role FULL-CONTROL role device-group webui panorama deployment licenses enable
+set shared admin-role FULL-CONTROL role device-group webui panorama policy-recommendation enable
+set shared admin-role FULL-CONTROL role device-group webui privacy show-full-ip-addresses enable
+set shared admin-role FULL-CONTROL role device-group webui privacy show-user-names-in-logs-and-reports enable
+set shared admin-role FULL-CONTROL role device-group webui privacy view-pcap-files enable
+set shared admin-role FULL-CONTROL role device-group webui validate enable
+set shared admin-role FULL-CONTROL role device-group webui save partial-save enable
+set shared admin-role FULL-CONTROL role device-group webui save save-for-other-admins enable
+set shared admin-role FULL-CONTROL role device-group webui commit panorama enable
+set shared admin-role FULL-CONTROL role device-group webui commit commit-for-other-admins enable
+set shared admin-role FULL-CONTROL role device-group webui commit device-groups enable
+set shared admin-role FULL-CONTROL role device-group webui commit templates enable
+set shared admin-role FULL-CONTROL role device-group webui commit collector-groups enable
+set shared admin-role FULL-CONTROL role device-group webui commit force-template-values enable
+set shared admin-role FULL-CONTROL role device-group webui tasks enable
+set shared admin-role FULL-CONTROL role device-group webui global system-alarms enable
+set shared admin-role FULL-CONTROL role device-group restapi objects addresses enable
+set shared admin-role FULL-CONTROL role device-group restapi objects address-groups enable
+set shared admin-role FULL-CONTROL role device-group restapi objects regions enable
+set shared admin-role FULL-CONTROL role device-group restapi objects dynamic-user-groups enable
+set shared admin-role FULL-CONTROL role device-group restapi objects applications enable
+set shared admin-role FULL-CONTROL role device-group restapi objects application-groups enable
+set shared admin-role FULL-CONTROL role device-group restapi objects application-filters enable
+set shared admin-role FULL-CONTROL role device-group restapi objects services enable
+set shared admin-role FULL-CONTROL role device-group restapi objects service-groups enable
+set shared admin-role FULL-CONTROL role device-group restapi objects tags enable
+set shared admin-role FULL-CONTROL role device-group restapi objects devices enable
+set shared admin-role FULL-CONTROL role device-group restapi objects globalprotect-hip-objects enable
+set shared admin-role FULL-CONTROL role device-group restapi objects globalprotect-hip-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects external-dynamic-lists enable
+set shared admin-role FULL-CONTROL role device-group restapi objects custom-data-patterns enable
+set shared admin-role FULL-CONTROL role device-group restapi objects custom-spyware-signatures enable
+set shared admin-role FULL-CONTROL role device-group restapi objects custom-vulnerability-signatures enable
+set shared admin-role FULL-CONTROL role device-group restapi objects custom-url-categories enable
+set shared admin-role FULL-CONTROL role device-group restapi objects antivirus-security-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects anti-spyware-security-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects vulnerability-protection-security-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects url-filtering-security-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects file-blocking-security-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects wildfire-analysis-security-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects data-filtering-security-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects dos-protection-security-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects gtp-protection-security-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects sctp-protection-security-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects security-profile-groups enable
+set shared admin-role FULL-CONTROL role device-group restapi objects log-forwarding-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects authentication-enforcements enable
+set shared admin-role FULL-CONTROL role device-group restapi objects decryption-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects decryption-forwarding-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects schedules enable
+set shared admin-role FULL-CONTROL role device-group restapi objects sdwan-path-quality-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects sdwan-saas-quality-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects sdwan-traffic-distribution-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi objects sdwan-error-correction-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi policies security-rules enable
+set shared admin-role FULL-CONTROL role device-group restapi policies nat-rules enable
+set shared admin-role FULL-CONTROL role device-group restapi policies qos-rules enable
+set shared admin-role FULL-CONTROL role device-group restapi policies policy-based-forwarding-rules enable
+set shared admin-role FULL-CONTROL role device-group restapi policies decryption-rules enable
+set shared admin-role FULL-CONTROL role device-group restapi policies tunnel-inspection-rules enable
+set shared admin-role FULL-CONTROL role device-group restapi policies application-override-rules enable
+set shared admin-role FULL-CONTROL role device-group restapi policies authentication-rules enable
+set shared admin-role FULL-CONTROL role device-group restapi policies dos-rules enable
+set shared admin-role FULL-CONTROL role device-group restapi policies sdwan-rules enable
+set shared admin-role FULL-CONTROL role device-group restapi network aggregate-ethernet-interfaces enable
+set shared admin-role FULL-CONTROL role device-group restapi network ethernet-interfaces enable
+set shared admin-role FULL-CONTROL role device-group restapi network vlan-interfaces enable
+set shared admin-role FULL-CONTROL role device-group restapi network loopback-interfaces enable
+set shared admin-role FULL-CONTROL role device-group restapi network tunnel-interfaces enable
+set shared admin-role FULL-CONTROL role device-group restapi network zones enable
+set shared admin-role FULL-CONTROL role device-group restapi network vlans enable
+set shared admin-role FULL-CONTROL role device-group restapi network virtual-wires enable
+set shared admin-role FULL-CONTROL role device-group restapi network virtual-routers enable
+set shared admin-role FULL-CONTROL role device-group restapi network logical-routers enable
+set shared admin-role FULL-CONTROL role device-group restapi network bgp-routing-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network ipsec-tunnels enable
+set shared admin-role FULL-CONTROL role device-group restapi network gre-tunnels enable
+set shared admin-role FULL-CONTROL role device-group restapi network dhcp-servers enable
+set shared admin-role FULL-CONTROL role device-group restapi network dhcp-relays enable
+set shared admin-role FULL-CONTROL role device-group restapi network dns-proxies enable
+set shared admin-role FULL-CONTROL role device-group restapi network globalprotect-portals enable
+set shared admin-role FULL-CONTROL role device-group restapi network globalprotect-gateways enable
+set shared admin-role FULL-CONTROL role device-group restapi network globalprotect-mdm-servers enable
+set shared admin-role FULL-CONTROL role device-group restapi network globalprotect-clientless-apps enable
+set shared admin-role FULL-CONTROL role device-group restapi network globalprotect-clientless-app-groups enable
+set shared admin-role FULL-CONTROL role device-group restapi network qos-interfaces enable
+set shared admin-role FULL-CONTROL role device-group restapi network lldp enable
+set shared admin-role FULL-CONTROL role device-group restapi network globalprotect-ipsec-crypto-network-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network ike-gateway-network-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network ipsec-crypto-network-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network ike-crypto-network-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network tunnel-monitor-network-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network interface-management-network-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network zone-protection-network-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network qos-network-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network lldp-network-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network bfd-network-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi network sdwan-interfaces enable
+set shared admin-role FULL-CONTROL role device-group restapi network sdwan-interface-profiles enable
+set shared admin-role FULL-CONTROL role device-group restapi device virtual-systems enable
+set shared admin-role FULL-CONTROL role device-group restapi panorama templates enable
+set shared admin-role FULL-CONTROL role device-group restapi panorama template-stacks enable
+set shared admin-role FULL-CONTROL role device-group restapi panorama device-groups enable
+set shared admin-role READ-ONLY role device-group webui dashboard enable
+set shared admin-role READ-ONLY role device-group webui acc enable
+set shared admin-role READ-ONLY role device-group webui monitor logs traffic enable
+set shared admin-role READ-ONLY role device-group webui monitor logs threat enable
+set shared admin-role READ-ONLY role device-group webui monitor logs url enable
+set shared admin-role READ-ONLY role device-group webui monitor logs wildfire enable
+set shared admin-role READ-ONLY role device-group webui monitor logs data-filtering enable
+set shared admin-role READ-ONLY role device-group webui monitor logs hipmatch enable
+set shared admin-role READ-ONLY role device-group webui monitor logs globalprotect enable
+set shared admin-role READ-ONLY role device-group webui monitor logs iptag enable
+set shared admin-role READ-ONLY role device-group webui monitor logs userid enable
+set shared admin-role READ-ONLY role device-group webui monitor logs decryption enable
+set shared admin-role READ-ONLY role device-group webui monitor logs tunnel enable
+set shared admin-role READ-ONLY role device-group webui monitor logs configuration enable
+set shared admin-role READ-ONLY role device-group webui monitor logs system enable
+set shared admin-role READ-ONLY role device-group webui monitor logs alarm enable
+set shared admin-role READ-ONLY role device-group webui monitor logs authentication enable
+set shared admin-role READ-ONLY role device-group webui monitor external-logs enable
+set shared admin-role READ-ONLY role device-group webui monitor automated-correlation-engine correlation-objects enable
+set shared admin-role READ-ONLY role device-group webui monitor automated-correlation-engine correlated-events enable
+set shared admin-role READ-ONLY role device-group webui monitor app-scope enable
+set shared admin-role READ-ONLY role device-group webui monitor pdf-reports manage-pdf-summary enable
+set shared admin-role READ-ONLY role device-group webui monitor pdf-reports pdf-summary-reports enable
+set shared admin-role READ-ONLY role device-group webui monitor pdf-reports user-activity-report enable
+set shared admin-role READ-ONLY role device-group webui monitor pdf-reports saas-application-usage-report enable
+set shared admin-role READ-ONLY role device-group webui monitor pdf-reports report-groups enable
+set shared admin-role READ-ONLY role device-group webui monitor pdf-reports email-scheduler enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports application-statistics enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports data-filtering-log enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports threat-log enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports threat-summary enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports traffic-log enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports traffic-summary enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports url-log enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports url-summary enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports hipmatch enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports globalprotect enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports wildfire-log enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports tunnel-log enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports tunnel-summary enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports iptag enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports userid enable
+set shared admin-role READ-ONLY role device-group webui monitor custom-reports auth enable
+set shared admin-role READ-ONLY role device-group webui monitor view-custom-reports enable
+set shared admin-role READ-ONLY role device-group webui monitor application-reports enable
+set shared admin-role READ-ONLY role device-group webui monitor threat-reports enable
+set shared admin-role READ-ONLY role device-group webui monitor url-filtering-reports enable
+set shared admin-role READ-ONLY role device-group webui monitor traffic-reports enable
+set shared admin-role READ-ONLY role device-group webui policies security-rulebase read-only
+set shared admin-role READ-ONLY role device-group webui policies nat-rulebase read-only
+set shared admin-role READ-ONLY role device-group webui policies qos-rulebase read-only
+set shared admin-role READ-ONLY role device-group webui policies pbf-rulebase read-only
+set shared admin-role READ-ONLY role device-group webui policies ssl-decryption-rulebase read-only
+set shared admin-role READ-ONLY role device-group webui policies tunnel-inspect-rulebase read-only
+set shared admin-role READ-ONLY role device-group webui policies application-override-rulebase read-only
+set shared admin-role READ-ONLY role device-group webui policies authentication-rulebase read-only
+set shared admin-role READ-ONLY role device-group webui policies dos-rulebase read-only
+set shared admin-role READ-ONLY role device-group webui policies sdwan-rulebase read-only
+set shared admin-role READ-ONLY role device-group webui objects addresses read-only
+set shared admin-role READ-ONLY role device-group webui objects address-groups read-only
+set shared admin-role READ-ONLY role device-group webui objects regions read-only
+set shared admin-role READ-ONLY role device-group webui objects dynamic-user-groups read-only
+set shared admin-role READ-ONLY role device-group webui objects applications read-only
+set shared admin-role READ-ONLY role device-group webui objects application-groups read-only
+set shared admin-role READ-ONLY role device-group webui objects application-filters read-only
+set shared admin-role READ-ONLY role device-group webui objects services read-only
+set shared admin-role READ-ONLY role device-group webui objects service-groups read-only
+set shared admin-role READ-ONLY role device-group webui objects tags read-only
+set shared admin-role READ-ONLY role device-group webui objects devices read-only
+set shared admin-role READ-ONLY role device-group webui objects global-protect hip-objects read-only
+set shared admin-role READ-ONLY role device-group webui objects global-protect hip-profiles read-only
+set shared admin-role READ-ONLY role device-group webui objects dynamic-block-lists read-only
+set shared admin-role READ-ONLY role device-group webui objects custom-objects data-patterns read-only
+set shared admin-role READ-ONLY role device-group webui objects custom-objects spyware read-only
+set shared admin-role READ-ONLY role device-group webui objects custom-objects vulnerability read-only
+set shared admin-role READ-ONLY role device-group webui objects custom-objects url-category read-only
+set shared admin-role READ-ONLY role device-group webui objects security-profiles antivirus read-only
+set shared admin-role READ-ONLY role device-group webui objects security-profiles anti-spyware read-only
+set shared admin-role READ-ONLY role device-group webui objects security-profiles vulnerability-protection read-only
+set shared admin-role READ-ONLY role device-group webui objects security-profiles url-filtering read-only
+set shared admin-role READ-ONLY role device-group webui objects security-profiles file-blocking read-only
+set shared admin-role READ-ONLY role device-group webui objects security-profiles wildfire-analysis read-only
+set shared admin-role READ-ONLY role device-group webui objects security-profiles data-filtering read-only
+set shared admin-role READ-ONLY role device-group webui objects security-profiles dos-protection read-only
+set shared admin-role READ-ONLY role device-group webui objects security-profile-groups read-only
+set shared admin-role READ-ONLY role device-group webui objects log-forwarding read-only
+set shared admin-role READ-ONLY role device-group webui objects authentication read-only
+set shared admin-role READ-ONLY role device-group webui objects decryption decryption-profile read-only
+set shared admin-role READ-ONLY role device-group webui objects decryption decryption-forwarding-profile read-only
+set shared admin-role READ-ONLY role device-group webui objects sdwan sdwan-profile read-only
+set shared admin-role READ-ONLY role device-group webui objects sdwan sdwan-saas-quality-profile read-only
+set shared admin-role READ-ONLY role device-group webui objects sdwan sdwan-dist-profile read-only
+set shared admin-role READ-ONLY role device-group webui objects sdwan sdwan-error-correction-profile read-only
+set shared admin-role READ-ONLY role device-group webui objects schedules read-only
+set shared admin-role READ-ONLY role device-group webui network interfaces read-only
+set shared admin-role READ-ONLY role device-group webui network zones read-only
+set shared admin-role READ-ONLY role device-group webui network vlans read-only
+set shared admin-role READ-ONLY role device-group webui network virtual-wires read-only
+set shared admin-role READ-ONLY role device-group webui network virtual-routers read-only
+set shared admin-role READ-ONLY role device-group webui network ipsec-tunnels read-only
+set shared admin-role READ-ONLY role device-group webui network gre-tunnels read-only
+set shared admin-role READ-ONLY role device-group webui network dhcp read-only
+set shared admin-role READ-ONLY role device-group webui network dns-proxy read-only
+set shared admin-role READ-ONLY role device-group webui network global-protect portals read-only
+set shared admin-role READ-ONLY role device-group webui network global-protect gateways read-only
+set shared admin-role READ-ONLY role device-group webui network global-protect mdm read-only
+set shared admin-role READ-ONLY role device-group webui network global-protect clientless-apps read-only
+set shared admin-role READ-ONLY role device-group webui network global-protect clientless-app-groups read-only
+set shared admin-role READ-ONLY role device-group webui network qos read-only
+set shared admin-role READ-ONLY role device-group webui network lldp read-only
+set shared admin-role READ-ONLY role device-group webui network network-profiles gp-app-ipsec-crypto read-only
+set shared admin-role READ-ONLY role device-group webui network network-profiles ike-gateways read-only
+set shared admin-role READ-ONLY role device-group webui network network-profiles ipsec-crypto read-only
+set shared admin-role READ-ONLY role device-group webui network network-profiles ike-crypto read-only
+set shared admin-role READ-ONLY role device-group webui network network-profiles tunnel-monitor read-only
+set shared admin-role READ-ONLY role device-group webui network network-profiles interface-mgmt read-only
+set shared admin-role READ-ONLY role device-group webui network network-profiles zone-protection read-only
+set shared admin-role READ-ONLY role device-group webui network network-profiles qos-profile read-only
+set shared admin-role READ-ONLY role device-group webui network network-profiles lldp-profile read-only
+set shared admin-role READ-ONLY role device-group webui network network-profiles bfd-profile read-only
+set shared admin-role READ-ONLY role device-group webui network sdwan-interface-profile read-only
+set shared admin-role READ-ONLY role device-group webui device setup management read-only
+set shared admin-role READ-ONLY role device-group webui device setup operations read-only
+set shared admin-role READ-ONLY role device-group webui device setup services read-only
+set shared admin-role READ-ONLY role device-group webui device setup interfaces read-only
+set shared admin-role READ-ONLY role device-group webui device setup telemetry read-only
+set shared admin-role READ-ONLY role device-group webui device setup content-id read-only
+set shared admin-role READ-ONLY role device-group webui device setup wildfire read-only
+set shared admin-role READ-ONLY role device-group webui device setup session read-only
+set shared admin-role READ-ONLY role device-group webui device setup hsm read-only
+set shared admin-role READ-ONLY role device-group webui device high-availability read-only
+set shared admin-role READ-ONLY role device-group webui device log-fwd-card read-only
+set shared admin-role READ-ONLY role device-group webui device config-audit enable
+set shared admin-role READ-ONLY role device-group webui device administrators read-only
+set shared admin-role READ-ONLY role device-group webui device admin-roles read-only
+set shared admin-role READ-ONLY role device-group webui device access-domain read-only
+set shared admin-role READ-ONLY role device-group webui device authentication-profile read-only
+set shared admin-role READ-ONLY role device-group webui device authentication-sequence read-only
+set shared admin-role READ-ONLY role device-group webui device user-identification read-only
+set shared admin-role READ-ONLY role device-group webui device data-redistribution read-only
+set shared admin-role READ-ONLY role device-group webui device virtual-systems read-only
+set shared admin-role READ-ONLY role device-group webui device shared-gateways read-only
+set shared admin-role READ-ONLY role device-group webui device certificate-management certificates read-only
+set shared admin-role READ-ONLY role device-group webui device certificate-management certificate-profile read-only
+set shared admin-role READ-ONLY role device-group webui device certificate-management ocsp-responder read-only
+set shared admin-role READ-ONLY role device-group webui device certificate-management ssl-tls-service-profile read-only
+set shared admin-role READ-ONLY role device-group webui device certificate-management scep read-only
+set shared admin-role READ-ONLY role device-group webui device certificate-management ssl-decryption-exclusion read-only
+set shared admin-role READ-ONLY role device-group webui device certificate-management ssh-service-profile read-only
+set shared admin-role READ-ONLY role device-group webui device block-pages read-only
+set shared admin-role READ-ONLY role device-group webui device log-settings system read-only
+set shared admin-role READ-ONLY role device-group webui device log-settings config read-only
+set shared admin-role READ-ONLY role device-group webui device log-settings user-id read-only
+set shared admin-role READ-ONLY role device-group webui device log-settings hipmatch read-only
+set shared admin-role READ-ONLY role device-group webui device log-settings globalprotect read-only
+set shared admin-role READ-ONLY role device-group webui device log-settings iptag read-only
+set shared admin-role READ-ONLY role device-group webui device log-settings correlation read-only
+set shared admin-role READ-ONLY role device-group webui device log-settings cc-alarm read-only
+set shared admin-role READ-ONLY role device-group webui device log-settings manage-log read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile snmp-trap read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile syslog read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile email read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile http read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile netflow read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile radius read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile tacplus read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile ldap read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile kerberos read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile saml_idp read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile dns read-only
+set shared admin-role READ-ONLY role device-group webui device server-profile mfa read-only
+set shared admin-role READ-ONLY role device-group webui device local-user-database users read-only
+set shared admin-role READ-ONLY role device-group webui device local-user-database user-groups read-only
+set shared admin-role READ-ONLY role device-group webui device scheduled-log-export enable
+set shared admin-role READ-ONLY role device-group webui device software read-only
+set shared admin-role READ-ONLY role device-group webui device global-protect-client read-only
+set shared admin-role READ-ONLY role device-group webui device dynamic-updates read-only
+set shared admin-role READ-ONLY role device-group webui device licenses read-only
+set shared admin-role READ-ONLY role device-group webui device support read-only
+set shared admin-role READ-ONLY role device-group webui device master-key read-only
+set shared admin-role READ-ONLY role device-group webui panorama setup operations read-only
+set shared admin-role READ-ONLY role device-group webui panorama config-audit enable
+set shared admin-role READ-ONLY role device-group webui panorama device-quarantine read-only
+set shared admin-role READ-ONLY role device-group webui panorama managed-devices summary read-only
+set shared admin-role READ-ONLY role device-group webui panorama managed-devices health read-only
+set shared admin-role READ-ONLY role device-group webui panorama managed-devices troubleshooting read-only
+set shared admin-role READ-ONLY role device-group webui panorama templates read-only
+set shared admin-role READ-ONLY role device-group webui panorama device-groups read-only
+set shared admin-role READ-ONLY role device-group webui panorama deployment software read-only
+set shared admin-role READ-ONLY role device-group webui panorama deployment global-protect-client read-only
+set shared admin-role READ-ONLY role device-group webui panorama deployment dynamic-updates read-only
+set shared admin-role READ-ONLY role device-group webui panorama deployment plugins enable
+set shared admin-role READ-ONLY role device-group webui panorama deployment licenses read-only
+set shared admin-role READ-ONLY role device-group webui panorama policy-recommendation read-only
+set shared admin-role READ-ONLY role device-group webui privacy show-full-ip-addresses enable
+set shared admin-role READ-ONLY role device-group webui privacy show-user-names-in-logs-and-reports enable
+set shared admin-role READ-ONLY role device-group webui privacy view-pcap-files enable
+set shared admin-role READ-ONLY role device-group webui validate enable
+set shared admin-role READ-ONLY role device-group restapi objects addresses enable
+set shared admin-role READ-ONLY role device-group restapi objects address-groups enable
+set shared admin-role READ-ONLY role device-group restapi objects regions enable
+set shared admin-role READ-ONLY role device-group restapi objects dynamic-user-groups enable
+set shared admin-role READ-ONLY role device-group restapi objects applications enable
+set shared admin-role READ-ONLY role device-group restapi objects application-groups enable
+set shared admin-role READ-ONLY role device-group restapi objects application-filters enable
+set shared admin-role READ-ONLY role device-group restapi objects services enable
+set shared admin-role READ-ONLY role device-group restapi objects service-groups enable
+set shared admin-role READ-ONLY role device-group restapi objects tags enable
+set shared admin-role READ-ONLY role device-group restapi objects devices enable
+set shared admin-role READ-ONLY role device-group restapi objects globalprotect-hip-objects enable
+set shared admin-role READ-ONLY role device-group restapi objects globalprotect-hip-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects external-dynamic-lists enable
+set shared admin-role READ-ONLY role device-group restapi objects custom-data-patterns enable
+set shared admin-role READ-ONLY role device-group restapi objects custom-spyware-signatures enable
+set shared admin-role READ-ONLY role device-group restapi objects custom-vulnerability-signatures enable
+set shared admin-role READ-ONLY role device-group restapi objects custom-url-categories enable
+set shared admin-role READ-ONLY role device-group restapi objects antivirus-security-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects anti-spyware-security-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects vulnerability-protection-security-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects url-filtering-security-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects file-blocking-security-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects wildfire-analysis-security-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects data-filtering-security-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects dos-protection-security-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects gtp-protection-security-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects sctp-protection-security-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects security-profile-groups enable
+set shared admin-role READ-ONLY role device-group restapi objects log-forwarding-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects authentication-enforcements enable
+set shared admin-role READ-ONLY role device-group restapi objects decryption-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects decryption-forwarding-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects schedules enable
+set shared admin-role READ-ONLY role device-group restapi objects sdwan-path-quality-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects sdwan-saas-quality-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects sdwan-traffic-distribution-profiles enable
+set shared admin-role READ-ONLY role device-group restapi objects sdwan-error-correction-profiles enable
+set shared admin-role READ-ONLY role device-group restapi policies security-rules enable
+set shared admin-role READ-ONLY role device-group restapi policies nat-rules enable
+set shared admin-role READ-ONLY role device-group restapi policies qos-rules enable
+set shared admin-role READ-ONLY role device-group restapi policies policy-based-forwarding-rules enable
+set shared admin-role READ-ONLY role device-group restapi policies decryption-rules enable
+set shared admin-role READ-ONLY role device-group restapi policies tunnel-inspection-rules enable
+set shared admin-role READ-ONLY role device-group restapi policies application-override-rules enable
+set shared admin-role READ-ONLY role device-group restapi policies authentication-rules enable
+set shared admin-role READ-ONLY role device-group restapi policies dos-rules enable
+set shared admin-role READ-ONLY role device-group restapi policies sdwan-rules enable
+set shared admin-role READ-ONLY role device-group restapi network aggregate-ethernet-interfaces enable
+set shared admin-role READ-ONLY role device-group restapi network ethernet-interfaces enable
+set shared admin-role READ-ONLY role device-group restapi network vlan-interfaces enable
+set shared admin-role READ-ONLY role device-group restapi network loopback-interfaces enable
+set shared admin-role READ-ONLY role device-group restapi network tunnel-interfaces enable
+set shared admin-role READ-ONLY role device-group restapi network zones enable
+set shared admin-role READ-ONLY role device-group restapi network vlans enable
+set shared admin-role READ-ONLY role device-group restapi network virtual-wires enable
+set shared admin-role READ-ONLY role device-group restapi network virtual-routers enable
+set shared admin-role READ-ONLY role device-group restapi network logical-routers enable
+set shared admin-role READ-ONLY role device-group restapi network bgp-routing-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network ipsec-tunnels enable
+set shared admin-role READ-ONLY role device-group restapi network gre-tunnels enable
+set shared admin-role READ-ONLY role device-group restapi network dhcp-servers enable
+set shared admin-role READ-ONLY role device-group restapi network dhcp-relays enable
+set shared admin-role READ-ONLY role device-group restapi network dns-proxies enable
+set shared admin-role READ-ONLY role device-group restapi network globalprotect-portals enable
+set shared admin-role READ-ONLY role device-group restapi network globalprotect-gateways enable
+set shared admin-role READ-ONLY role device-group restapi network globalprotect-mdm-servers enable
+set shared admin-role READ-ONLY role device-group restapi network globalprotect-clientless-apps enable
+set shared admin-role READ-ONLY role device-group restapi network globalprotect-clientless-app-groups enable
+set shared admin-role READ-ONLY role device-group restapi network qos-interfaces enable
+set shared admin-role READ-ONLY role device-group restapi network lldp enable
+set shared admin-role READ-ONLY role device-group restapi network globalprotect-ipsec-crypto-network-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network ike-gateway-network-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network ipsec-crypto-network-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network ike-crypto-network-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network tunnel-monitor-network-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network interface-management-network-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network zone-protection-network-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network qos-network-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network lldp-network-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network bfd-network-profiles enable
+set shared admin-role READ-ONLY role device-group restapi network sdwan-interfaces enable
+set shared admin-role READ-ONLY role device-group restapi network sdwan-interface-profiles enable
+set shared admin-role READ-ONLY role device-group restapi device virtual-systems enable
+set shared admin-role READ-ONLY role device-group restapi panorama templates enable
+set shared admin-role READ-ONLY role device-group restapi panorama template-stacks enable
+set shared admin-role READ-ONLY role device-group restapi panorama device-groups enable
+set shared admin-role READ-ONLY role device-group device-admin-role READ-ONLY
+
