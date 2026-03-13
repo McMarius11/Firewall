@@ -29,6 +29,11 @@ OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL-------------
 #set deviceconfig system ntp-servers primary-ntp-server ntp-server-address de.pool.ntp.org
 #set deviceconfig system ntp-servers primary-ntp-server authentication-type none
 
+
+OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
+
+
+
 # Antivirus and Apps/Threats are needed for EDLs
 request content upgrade check
 request content upgrade download latest 
@@ -92,6 +97,10 @@ set shared tag D-NAT
 set shared tag Outbound comments "Outbound to the Internet"
 set shared tag Inbound comments "Inbound from the Internet"
 set shared tag AppDetectRunning color color38
+set shared tag deny comments "denied of dropped traffic"
+set shared tag deny color color14
+set shared tag decrypted color color17
+set shared tag no_decrypt color color42
 
 
 
@@ -399,19 +408,101 @@ set shared post-rulebase default-security-rules rules interzone-default action d
 set shared post-rulebase default-security-rules rules interzone-default log-start no
 set shared post-rulebase default-security-rules rules interzone-default log-end yes
 set shared post-rulebase default-security-rules rules interzone-default log-setting default
+
 set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" target negate no
-set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" category [ financial-services government health-and-medicine Custom-No-Decrypt ]
+set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" category [ Custom-No-Decrypt financial-services government health-and-medicine ]
 set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" service any
 set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" type ssl-forward-proxy
 set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" from any
 set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" to any
-set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" source any
-set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" destination any
+set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" source ag_RFC1918
+set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" destination ag_RFC1918
 set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" source-user any
 set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" profile Recommended_Decryption_Profile
 set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" action no-decrypt
 set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" disabled yes
-set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" description "This rule does not do Decryption. This rule is validating SSL Protocol Communications."
+set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" description "This rule does not do Decryption."
+set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" source-hip any
+set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" destination-hip any
+set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" negate-destination yes
+set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" log-setting default
+set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" tag no_decrypt
+set shared pre-rulebase decryption rules "NO-Decrypt URL Categories" group-tag no_decrypt
+set shared pre-rulebase decryption rules Decrypt target negate no
+set shared pre-rulebase decryption rules Decrypt category any
+set shared pre-rulebase decryption rules Decrypt service any
+set shared pre-rulebase decryption rules Decrypt type ssl-forward-proxy
+set shared pre-rulebase decryption rules Decrypt from any
+set shared pre-rulebase decryption rules Decrypt to any
+set shared pre-rulebase decryption rules Decrypt source ag_RFC1918
+set shared pre-rulebase decryption rules Decrypt destination ag_RFC1918
+set shared pre-rulebase decryption rules Decrypt source-user any
+set shared pre-rulebase decryption rules Decrypt profile Recommended_Decryption_Profile
+set shared pre-rulebase decryption rules Decrypt action decrypt
+set shared pre-rulebase decryption rules Decrypt disabled yes
+set shared pre-rulebase decryption rules Decrypt source-hip any
+set shared pre-rulebase decryption rules Decrypt destination-hip any
+set shared pre-rulebase decryption rules Decrypt negate-destination yes
+set shared pre-rulebase decryption rules Decrypt log-setting default
+set shared pre-rulebase decryption rules Decrypt tag decrypted
+set shared pre-rulebase decryption rules Decrypt group-tag decrypted
+
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" target negate no
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" to any
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" from any
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" source ag_RFC1918
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" destination fqdn_sinkhole.paloaltonetworks.com
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" source-user any
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" category any
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" application any
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" service any
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" source-hip any
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" destination-hip any
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" tag deny
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" action drop
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" log-start no
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" log-end yes
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" negate-source no
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" group-tag deny
+set shared pre-rulebase security rules "Paloalto DNS Sinkhole" log-setting default
+set shared pre-rulebase security rules "Inbound EDL Block Rule" target negate no
+set shared pre-rulebase security rules "Inbound EDL Block Rule" to any
+set shared pre-rulebase security rules "Inbound EDL Block Rule" from any
+set shared pre-rulebase security rules "Inbound EDL Block Rule" source [ panw-bulletproof-ip-list panw-highrisk-ip-list panw-known-ip-list panw-torexit-ip-list ]
+set shared pre-rulebase security rules "Inbound EDL Block Rule" destination any
+set shared pre-rulebase security rules "Inbound EDL Block Rule" source-user any
+set shared pre-rulebase security rules "Inbound EDL Block Rule" category any
+set shared pre-rulebase security rules "Inbound EDL Block Rule" application any
+set shared pre-rulebase security rules "Inbound EDL Block Rule" service any
+set shared pre-rulebase security rules "Inbound EDL Block Rule" source-hip any
+set shared pre-rulebase security rules "Inbound EDL Block Rule" destination-hip any
+set shared pre-rulebase security rules "Inbound EDL Block Rule" action drop
+set shared pre-rulebase security rules "Inbound EDL Block Rule" log-start no
+set shared pre-rulebase security rules "Inbound EDL Block Rule" log-end yes
+set shared pre-rulebase security rules "Inbound EDL Block Rule" negate-source no
+set shared pre-rulebase security rules "Inbound EDL Block Rule" log-setting default
+set shared pre-rulebase security rules "Inbound EDL Block Rule" disabled yes
+set shared pre-rulebase security rules "Inbound EDL Block Rule" tag [ Inbound deny ]
+set shared pre-rulebase security rules "Inbound EDL Block Rule" group-tag deny
+set shared pre-rulebase security rules "Outbound EDL Block Rule" target negate no
+set shared pre-rulebase security rules "Outbound EDL Block Rule" to any
+set shared pre-rulebase security rules "Outbound EDL Block Rule" from any
+set shared pre-rulebase security rules "Outbound EDL Block Rule" source any
+set shared pre-rulebase security rules "Outbound EDL Block Rule" destination [ panw-bulletproof-ip-list panw-highrisk-ip-list panw-known-ip-list panw-torexit-ip-list ]
+set shared pre-rulebase security rules "Outbound EDL Block Rule" source-user any
+set shared pre-rulebase security rules "Outbound EDL Block Rule" category any
+set shared pre-rulebase security rules "Outbound EDL Block Rule" application any
+set shared pre-rulebase security rules "Outbound EDL Block Rule" service any
+set shared pre-rulebase security rules "Outbound EDL Block Rule" source-hip any
+set shared pre-rulebase security rules "Outbound EDL Block Rule" destination-hip any
+set shared pre-rulebase security rules "Outbound EDL Block Rule" action drop
+set shared pre-rulebase security rules "Outbound EDL Block Rule" log-start no
+set shared pre-rulebase security rules "Outbound EDL Block Rule" log-end yes
+set shared pre-rulebase security rules "Outbound EDL Block Rule" negate-source no
+set shared pre-rulebase security rules "Outbound EDL Block Rule" log-setting default
+set shared pre-rulebase security rules "Outbound EDL Block Rule" disabled yes
+set shared pre-rulebase security rules "Outbound EDL Block Rule" tag [ Outbound deny ]
+set shared pre-rulebase security rules "Outbound EDL Block Rule" group-tag deny
 
 
 # Objects
