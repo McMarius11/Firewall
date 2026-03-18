@@ -20,7 +20,7 @@ set deviceconfig system ntp-servers secondary-ntp-server ntp-server-address ptbt
 OPTIONAL--------OPTIONAL-------------OPTIONAL--------------OPTIONAL--------------------OPTIONAL
 
 
-# deletes virtualwire and interfaces 1/1 & 1/2 and zones
+# deletes virtualwire and interfaces 1/1 & 1/2 and zones and bad ike and crypto profiles
 configure
 delete rulebase security rules rule1
 delete network virtual-wire default-vwire
@@ -28,6 +28,8 @@ delete zone trust
 delete zone untrust
 delete network interface ethernet ethernet1/1
 delete network interface ethernet ethernet1/2
+delete network ike crypto-profiles ike-crypto-profiles default
+delete network ike crypto-profiles ipsec-crypto-profiles default
 
 
 # fix weak ssh ciphers
